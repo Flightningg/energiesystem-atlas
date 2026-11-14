@@ -71,6 +71,12 @@ const paths=[
  {id:'ccs',title:'CO₂ / CCS',ids:['gas>gasp','gasp>co2','co2>ccs','grid>ccs','ccs>geostore'],color:'co2'}
 ];
 let current='all',selected='grid',searchTerm='';
+const originalNodes=Object.fromEntries(nodes.map(o=>[o.id,{...o}]));
+const originalPaths=Object.fromEntries(paths.map(p=>[p.id,p.title]));
+const T=(de,en)=>window.AtlasI18n?.t(de,en)??de;
+const englishPaths={all:'Entire system',power:'Direct electricity',heat:'Heat pump → homes',battery:'Battery storage',hydrogen:'Hydrogen → power',ammonia:'Ammonia → power',fertilizer:'NH₃ → fertiliser',ccs:'CO₂ / CCS'};
+const englishStages=[['01 / SOURCES','Primary energy and feedstocks'],['02 / GENERATION','Power plants and generators'],['03 / CARRIERS','Power, heat and material flows'],['04 / STORAGE & CONVERSION','Sector coupling and reconversion'],['05 / DEMAND','Final demand and carbon sinks']];
+
 const sv=(tag,attrs={},parent=svg)=>{const z=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(attrs))z.setAttribute(k,v);parent.appendChild(z);return z};
 const defs=sv('defs');for(const[type,c]of Object.entries(colors)){const m=sv('marker',{id:'arrow-'+type,viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:6,markerHeight:6,orient:'auto-start-reverse'},defs);sv('path',{d:'M1 1 L9 5 L1 9 Z',fill:c},m)}
 const stages=[['01 / QUELLEN','Primärenergie und Rohstoffe'],['02 / ERZEUGER','Kraftwerke und Generatoren'],['03 / ENERGIETRÄGER','Strom, Wärme und Stoffströme'],['04 / SPEICHER & WANDLER','Sektorkopplung und Rückumwandlung'],['05 / VERBRAUCH','Endnachfrage und Stoffsenken']];
@@ -95,18 +101,33 @@ function update(scroll){
  edgeEl[e.id].setAttribute('opacity',opacity);edgeEl[e.id].setAttribute('stroke-width',width)});
  nodes.forEach(o=>{const activeNode=o.id===selected;nodeEl[o.id].classList.toggle('active',activeNode);let opacity=current==='all'?(related.has(o.id)?1:.72):(inPath.has(o.id)?1:.19);if(searchTerm&&o.name.toLowerCase().includes(searchTerm))opacity=1;if(activeNode)opacity=1;nodeEl[o.id].setAttribute('opacity',opacity)});
  control.replaceChildren();paths.forEach(p=>{const b=document.createElement('button');b.className='pill'+(p.id===current?' selected':'');b.type='button';if(p.id!=='all'){const dot=document.createElement('span');dot.className='dot';dot.style.setProperty('--c',colors[p.color]);b.appendChild(dot)}b.appendChild(document.createTextNode(p.title));b.onclick=()=>{current=p.id;selected={all:'grid',power:'grid',heat:'heatpump',battery:'battery',hydrogen:'h2store',ammonia:'cracker',fertilizer:'haber',ccs:'ccs'}[p.id];searchTerm='';document.getElementById('search').value='';update(true);setUrl()};control.appendChild(b)});
- insp.replaceChildren();const o=by[selected];text('div','tiny','Technologie-Inspector');const hr=text('div','headrow');text('div','large-icon',o.icon,hr);const hh=text('div','');text('h3','',o.name,hh);text('div','type',o.short,hh);hr.appendChild(hh);text('p','copy',o.description);
- field('Exogen / Eingangsparameter',o.exo,'exo');field('Endogen / Modellentscheidung',o.endo,'endo');
- const box=text('div','detailbox connections');text('h4','','Direkt verbundene Technologien',box);const con=text('div','conn','',box);const relatedEdges=edgeList.filter(e=>e.a===selected||e.b===selected);const neighbor=[...new Set(relatedEdges.map(e=>e.a===selected?e.b:e.a))];neighbor.forEach(id=>{const b=text('button','',by[id].name,con);b.type='button';b.onclick=()=>{selected=id;update(true)}});
- const hint=text('p','copy','Für den vollständigen Modellfluss beachte auch Nebenverbräuche, Umwandlungsverluste und bei H₂/NH₃ die Stoffbilanz.');hint.style.fontSize='11px';hint.style.color='#788a98';
+ insp.replaceChildren();const o=by[selected];text('div','tiny',T('Technologie-Inspector','Technology inspector'));const hr=text('div','headrow');text('div','large-icon',o.icon,hr);const hh=text('div','');text('h3','',o.name,hh);text('div','type',o.short,hh);hr.appendChild(hh);text('p','copy',o.description);
+ field(T('Exogen / Eingangsparameter','Exogenous inputs'),o.exo,'exo');field(T('Endogen / Modellentscheidung','Endogenous decision'),o.endo,'endo');
+ const box=text('div','detailbox connections');text('h4','',T('Direkt verbundene Technologien','Direct connections'),box);const con=text('div','conn','',box);const relatedEdges=edgeList.filter(e=>e.a===selected||e.b===selected);const neighbor=[...new Set(relatedEdges.map(e=>e.a===selected?e.b:e.a))];neighbor.forEach(id=>{const b=text('button','',by[id].name,con);b.type='button';b.onclick=()=>{selected=id;update(true)}});
+ const hint=text('p','copy',T('Für den vollständigen Modellfluss beachte auch Nebenverbräuche, Umwandlungsverluste und bei H₂/NH₃ die Stoffbilanz.','For complete system modelling, include auxiliary consumption, conversion losses and material balances for H₂/NH₃.'));hint.style.fontSize='11px';hint.style.color='#788a98';
  if(scroll){const zoom=Number(document.getElementById('zoom').value)/100;const targetX=(o.x+NW/2)*zoom,targetY=(o.y+NH/2)*zoom;scroller.scrollTo({left:Math.max(0,targetX-scroller.clientWidth/2),top:Math.max(0,targetY-scroller.clientHeight/2),behavior:'smooth'})}
 }
-function setUrl(){const params=new URLSearchParams();if(current!=='all')params.set('path',current);const url=location.pathname+(params.toString()?'?'+params.toString():'');try{history.replaceState({},'',url)}catch{}}
+function setUrl(){const params=new URLSearchParams(location.search);params.delete('path');if(current!=='all')params.set('path',current);const url=location.pathname+(params.toString()?'?'+params.toString():'')+location.hash;try{history.replaceState({},'',url)}catch{}}
+function applyLanguage(){
+ const en=window.AtlasI18n?.lang==='en',dictionary=window.AtlasI18n?.graph||{};
+ nodes.forEach(o=>{
+   Object.assign(o,originalNodes[o.id]);
+   const tr=dictionary[o.id];
+   if(en&&tr)Object.assign(o,{name:tr[0],short:tr[1],description:tr[2],exo:tr[3],endo:tr[4]});
+   const g=nodeEl[o.id];g.setAttribute('aria-label',o.name);g.querySelector('.nt').textContent=o.name;g.querySelector('.ns').textContent=o.short.length>27?o.short.slice(0,26)+'…':o.short;g.querySelector('title').textContent=o.description;
+ });
+ paths.forEach(p=>p.title=en?englishPaths[p.id]:originalPaths[p.id]);
+ const titleEls=svg.querySelectorAll('.coltitle'),subEls=svg.querySelectorAll('.colsub');
+ stages.forEach((st,i)=>{titleEls[i].textContent=en?englishStages[i][0]:st[0];subEls[i].textContent=en?englishStages[i][1]:st[1]});
+ searchTerm='';const search=document.getElementById('search');if(search)search.value='';
+ update(false);
+}
+window.addEventListener('atlas:language',applyLanguage);
 const q=new URLSearchParams(location.search).get('path');if(paths.some(x=>x.id===q)){current=q;selected={power:'grid',heat:'heatpump',battery:'battery',hydrogen:'h2store',ammonia:'cracker',fertilizer:'haber',ccs:'ccs'}[q]||'grid'}
 update(false);
-document.getElementById('search').addEventListener('input',ev=>{searchTerm=ev.target.value.trim().toLowerCase();if(searchTerm){const first=nodes.find(n=>n.name.toLowerCase().includes(searchTerm));if(first){selected=first.id;update(true)}else{stat.textContent='Keine Technologie gefunden'}}else{stat.textContent='';update(false)}});
+document.getElementById('search').addEventListener('input',ev=>{searchTerm=ev.target.value.trim().toLowerCase();if(searchTerm){const first=nodes.find(n=>n.name.toLowerCase().includes(searchTerm));if(first){selected=first.id;update(true)}else{stat.textContent=T('Keine Technologie gefunden','No matching technology')}}else{stat.textContent='';update(false)}});
 document.getElementById('reset').addEventListener('click',()=>{current='all';selected='grid';searchTerm='';document.getElementById('search').value='';document.getElementById('zoom').value='100';document.getElementById('zoomnumber').textContent='100 %';svg.setAttribute('width','1338');svg.setAttribute('height','1530');update(false);scroller.scrollTo({left:210,top:180,behavior:'smooth'});setUrl()});
-document.getElementById('share').addEventListener('click',async()=>{const link=location.href;try{await navigator.clipboard.writeText(link);stat.textContent='Link kopiert ✓';setTimeout(()=>stat.textContent='',3500)}catch{const inp=document.createElement('input');inp.value=link;document.body.appendChild(inp);inp.select();document.execCommand('copy');inp.remove();stat.textContent='Link kopiert ✓';setTimeout(()=>stat.textContent='',3500)}});
+document.getElementById('share').addEventListener('click',async()=>{const link=location.href;try{await navigator.clipboard.writeText(link);stat.textContent=T('Link kopiert ✓','Link copied ✓');setTimeout(()=>stat.textContent='',3500)}catch{const inp=document.createElement('input');inp.value=link;document.body.appendChild(inp);inp.select();document.execCommand('copy');inp.remove();stat.textContent='Link kopiert ✓';setTimeout(()=>stat.textContent='',3500)}});
 document.getElementById('zoom').addEventListener('input',ev=>{const z=+ev.target.value/100;svg.setAttribute('width',Math.round(1338*z));svg.setAttribute('height',Math.round(1530*z));document.getElementById('zoomnumber').textContent=ev.target.value+' %'});
 scroller.scrollLeft=180;scroller.scrollTop=185;
 })();
