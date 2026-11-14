@@ -61,3 +61,41 @@
     @media(max-width:760px){.learning-hero{padding:20px 17px}.learning-overview{padding:14px}.learning-overview-grid{grid-template-columns:1fr}.learning-hero h2{font-size:21px}.learning-tools{align-items:stretch}.learning-tools input{width:100%}.learning-guidance{grid-template-columns:1fr}.learning-table .learning-detail-grid{grid-template-columns:1fr}}
     @media print{.learning-tools,.learning-export{display:none}.learning-tablewrap{overflow:visible}.learning-table{min-width:0}.learning-table .detailrow[hidden]{display:none}}
   
+
+/* Language selector */
+.mast .lang-switch{position:relative;float:right;display:flex;gap:3px;z-index:3;border:1px solid #ffffff55;border-radius:10px;padding:3px;background:#ffffff12;margin:-4px 0 9px 18px}
+.lang-switch button{font-size:11px;font-weight:770;line-height:1.2;border:0;color:#e9f4f9;padding:8px 12px;border-radius:7px;background:transparent}
+.lang-switch button.active,.lang-switch button[aria-pressed="true"]{background:#f4fbff;color:#183b50;box-shadow:0 1px 3px #061c3040}
+.lang-switch button:hover:not(.active){background:#ffffff22}
+@media(max-width:560px){.mast .lang-switch{float:none;display:table;margin:-4px 0 16px auto}.mast .lang-switch button{padding:7px 10px}}
+/* Forecast eligibility – transparent status backgrounds */
+.learning-table .forecast-col{min-width:135px}
+.learning-table tr.forecast-in>td{background:rgba(30,158,93,.105)}
+.learning-table tr.forecast-out>td{background:rgba(216,66,67,.107)}
+.learning-table tr.forecast-in:hover>td{background:rgba(30,158,93,.16)}
+.learning-table tr.forecast-out:hover>td{background:rgba(216,66,67,.17)}
+.learning-table .detailrow.forecast-in td{background:rgba(30,158,93,.09)!important}
+.learning-table .detailrow.forecast-out td{background:rgba(216,66,67,.10)!important}
+.forecast-choice{min-width:139px}
+.forecast-toggle{display:inline-flex;align-items:center;gap:8px;cursor:pointer;white-space:nowrap}
+.forecast-toggle input{width:17px;height:17px;cursor:pointer;accent-color:#07854e}
+.forecast-chip{font-size:10px;font-weight:780;letter-spacing:.1px;border-radius:16px;padding:5px 8px}
+.forecast-in .forecast-chip{background:rgba(12,121,62,.12);color:#075e3a;border:1px solid rgba(3,111,48,.23)}
+.forecast-out .forecast-chip{background:rgba(176,32,46,.10);color:#a1222e;border:1px solid rgba(168,36,40,.27)}
+.forecast-legend{display:flex;align-items:center;flex-wrap:wrap;gap:11px 22px;padding:13px 17px;background:white;border:1px solid var(--line);border-top:0;border-radius:0 0 12px 12px;color:#53687a;font-size:11px}
+.forecast-legend span{display:inline-flex;gap:8px;align-items:center;font-weight:700}
+.forecast-legend i{display:inline-block;width:16px;height:16px;border-radius:4px}
+.forecast-legend-in i{background:rgba(30,158,93,.18);border:1px solid rgba(30,158,93,.5)}
+.forecast-legend-out i{background:rgba(216,66,67,.18);border:1px solid rgba(216,66,67,.45)}
+.forecast-legend small{color:#768797;flex-basis:100%;font-size:10.5px}
+.forecast-hint{font-size:11px;color:#526a7d;margin:0;line-height:1.5;max-width:285px}
+.learning-tools{gap:12px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.legend .legend-c9aa8b5{--c:#9aa8b5}
+.legend .legend-c2865ce{--c:#2865ce}
+.legend .legend-cd87829{--c:#d87829}
+.legend .legend-c088a80{--c:#088a80}
+.legend .legend-c8751bb{--c:#8751bb}
+.legend .legend-c687889{--c:#687889}
+@media(max-width:760px){.forecast-hint{max-width:none}.learning-table{min-width:920px}}
+@media print{.learning-table .forecast-toggle input{appearance:auto}.learning-table tr.forecast-in td,.learning-table tr.forecast-out td{print-color-adjust:exact}}
