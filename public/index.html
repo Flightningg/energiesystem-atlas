@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#102235">
+  <meta name="description" content="Interaktiver Energie- und Stoffflussatlas: Von Wind und Solar über Speicher, Wasserstoff, Haber-Bosch und CCS bis zum Endverbrauch.">
+  <title>Energiesystem-Atlas · Interaktiver Energie- und Stofffluss</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="mast"><div class="shell"><div class="eyebrow">Energy systems · Interactive model map</div><h1>Vom Energieerzeuger<br>bis zum Endverbrauch.</h1><p>Ein interaktiver Atlas der Energie- und Stoffflüsse: Wind, Sonne und Kraftwerke, elektrische und chemische Speicher, Wasserstoff, Ammoniak, Wärmepumpen und CO₂-Abscheidung – mit ihrer Rolle im Energiesystem.</p><div class="context"><span>Masterarbeit · Energie-Systemmodellierung</span><span>Deutschland & Japan</span><span>Greenfield-Optimierung</span><span>Technologieübersicht, kein finales Modell</span></div></div></header>
+<main class="shell">
+  <div class="sectionbar"><div><h2>Interaktives Wirkungsgefüge</h2><p>Wähle einen Pfad oder klicke eine Anlage an. Alle Verbindungen sind navigierbar.</p></div><div class="actionset"><button class="plain-btn" id="reset" type="button">↺ Gesamtansicht</button><button class="plain-btn strong" id="share" type="button">↗ Link zur Ansicht kopieren</button></div></div>
+  <div class="toolbar"><div class="line1"><label for="search">Energiepfad auswählen</label><input class="text-field" type="search" id="search" autocomplete="off" placeholder="Technologie suchen, z. B. Elektrolyseur" aria-label="Technologie suchen"></div><div class="pillbox" id="presets"></div><div class="small-screen-note">Tipp: Diagramm horizontal und vertikal verschieben, um alle Technologien zu sehen.</div></div>
+  <div class="workbench"><div class="graph-wrap"><div class="graph-head"><span class="graph-tip">↗ Kasten auswählen · Pfeile verfolgen · Pfade oben filtern</span><span id="live-status" class="status" aria-live="polite"></span></div><div class="graph-scroll" id="scroller"><svg id="graph" width="1338" height="1530" viewBox="0 0 1338 1530" role="img" aria-label="Interaktives Netzdiagramm mit Quellen, Umwandlungstechnologien, Energieträgern, Speichern und Verbrauchergruppen"></svg></div></div><aside class="inspector" id="inspector" aria-live="polite"></aside></div>
+  <div class="graph-foot"><div class="legend"><span><i class="legend-c9aa8b5"></i>Primärenergie / Rohstoffe</span><span><i class="legend-c2865ce"></i>Strom</span><span><i class="legend-cd87829"></i>Wärme / Antrieb</span><span><i class="legend-c088a80"></i>Wasserstoff</span><span><i class="legend-c8751bb"></i>Ammoniak</span><span><i class="legend-c687889"></i>CO₂</span></div><label class="zoom">Zoom <input type="range" id="zoom" min="65" max="130" step="5" value="100"><span id="zoomnumber" class="zoom-num">100 %</span></label></div>
+  <section class="explanation" aria-label="Wichtige Hinweise"><article class="expl-card"><div class="num">01 / MODELLLOGIK</div><h3>Exogen ≠ endogen</h3><p>Nachfrageprognosen, Ressourcen und Kostenszenarien werden vor dem Modelllauf festgelegt. Der Optimierer bestimmt Kapazitäten und Betrieb. Keine iterative Preis-Nachfrage-Rückkopplung im Basismodell.</p></article><article class="expl-card"><div class="num">02 / ENERGIEUMWANDLUNG</div><h3>Strom, Wärme und Stoffe unterscheiden</h3><p>Wärmepumpen führen Strom <em>und</em> Umweltwärme dem Wärmesektor zu. Elektrolyse, Haber-Bosch, Ammoniak-Cracking und Brennstoffzellen benötigen eigene Energie- und Massenbilanzen samt Verlusten.</p></article><article class="expl-card"><div class="num">03 / MODELLGRENZEN</div><h3>Technologieatlas statt Pflichtliste</h3><p>Nicht alle Technologien müssen in die Masterarbeit. Wasserstoff, Ammoniak, Wärmenetze und CCS können je nach Forschungsfrage als Varianten oder Erweiterungen geprüft werden.</p></article></section>
+
+  <section id="learning-section" class="learning-section" aria-labelledby="learning-title">
+    <div class="learning-hero">
+      <div><div class="learning-eyebrow">Forecasting &amp; techno-ökonomische Modellierung · Forschungsinventar</div><h2 id="learning-title">Welche Technologien profitieren von Learning-by-Doing?</h2>
+      <p>Interaktive Übersicht der Technologien, deren <strong>künftige Kosten bis 2060</strong> durch Produktions-, Installations- oder Betriebserfahrung beeinflusst werden könnten. Priorität bedeutet hier <strong>Relevanz für eine Forecast-/Szenarioanalyse</strong> – nicht, dass eine Lernrate bereits belastbar geschätzt ist oder die Technologie zwingend ins Basismodell gehört.</p></div>
+      <div class="learning-icon" aria-hidden="true">📉</div>
+    </div>
+    <div class="learning-overview">
+      <div class="learning-overview-grid">
+        <div class="learning-metric"><strong>01 · Empirisch gut untersuchen</strong><p>Vor allem modulare, in Serie produzierte Anlagen: PV-Module, Lithium-Ionen-Batterien; außerdem Lern- und Skaleneffekte bei Wind und Elektrolyseuren.</p></div>
+        <div class="learning-metric"><strong>02 · Projektbezogen vorsichtig sein</strong><p>Bei CCS, Kernkraft, Netzen, Pumpspeichern und Kavernen hängen Kosten stark von Standort, Genehmigung, Bau und Materialpreisen ab.</p></div>
+        <div class="learning-metric"><strong>03 · Keine Optimierer-Feedbackschleife</strong><p>Globale Ausbaupfade und Lernraten werden außerhalb des Optimierers zu Szenario-Kostenpfaden verarbeitet. Regionale Ausbauentscheidungen bleiben endogen.</p></div>
+      </div>
+      <div class="learning-eq"><strong>Exogene Lernkurve (optional):</strong> <code>CAPEX(t) = CAPEX₀ × [Q_global(t) / Q_global,0]^(−b)</code>, mit <code>b = −log₂(1 − LR)</code>. <strong>LR</strong> ist die angenommene Kostenreduktion pro Verdopplung der kumulierten weltweiten Erfahrung <strong>Q</strong>. Material-, Zins-, Länder- und Projektkosteneinflüsse separat berücksichtigen; die Gleichung ist keine Garantie stetig sinkender Kosten.</div>
+    </div>
+    <div class="learning-tools">
+      <div class="learning-filters" id="learning-filters" role="group" aria-label="Priorität filtern"></div>
+      <label><span class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Technologien durchsuchen</span><input id="learning-search" type="search" placeholder="🔎 Technologie / Forecast suchen…" aria-label="Learning-by-Doing-Technologien suchen"></label>
+    </div>
+    <div class="learning-tablewrap"><table class="learning-table"><thead><tr><th style="width:94px">Priorität</th><th style="width:225px">Technologie</th><th>Was ggf. forecasten?</th><th style="width:151px">Lernkurven-Eignung</th><th style="width:175px">Vorgehen</th></tr></thead><tbody id="learning-rows"></tbody></table></div>
+    <div class="learning-summary"><span id="learning-count" aria-live="polite"></span><button class="learning-export" type="button" id="learning-csv">↓ Komplette Liste als CSV</button></div>
+    <div class="learning-guidance">
+      <article><h3>Empfohlene Priorisierung für Deutschland &amp; Japan</h3><p><strong>Zuerst</strong> PV, Onshore-/Offshore-Wind und Batteriespeicher. <strong>Danach</strong> Elektrolyse und CO₂-Abscheidung, sofern Bestandteil der Modellgrenze. Wärme, Ammoniak und weitere Technologieketten zunächst als optionale Erweiterungen. Für jeden Modelllauf exogene Low-/Base-/High-Kostenpfade für 2030, 2040, 2050 und 2060 definieren.</p></article>
+      <article><h3>Wissenschaftlich saubere Abgrenzung</h3><p><strong>Learning-by-Doing</strong> ist nicht automatisch identisch mit allgemeinen Kostenreduktionen durch F&amp;E, Materialpreise, Skaleneffekte oder Zinsänderungen. Die empirische Evidenz ist je Technologie verschieden. <strong>Wasserstoff, Ammoniak, Strom und CO₂ sind Energieträger/Stoffströme – keine Lernkurven-Technologien.</strong> Ihre Herstellung bzw. Umwandlung kann dagegen Gegenstand eines Forecasts sein.</p></article>
+    </div>
+    <p class="learning-citations"><strong>Literatur- und Datenanker:</strong> <a href="https://www.iea.org/reports/clean-energy-innovation/innovation-needs-in-the-sustainable-development-scenario" target="_blank" rel="noopener noreferrer">IEA · Experience Curves</a> · <a href="https://www.iea.org/reports/energy-technology-perspectives-2026" target="_blank" rel="noopener noreferrer">IEA · Energy Technology Perspectives 2026</a> · <a href="https://data.openei.org/submissions/8759" target="_blank" rel="noopener noreferrer">ATB 2025 · Technologiekosten-Szenarien</a> · <a href="https://www.iea.org/reports/global-hydrogen-review-2025" target="_blank" rel="noopener noreferrer">IEA · Global Hydrogen Review 2025</a> · <a href="https://www.sciencedirect.com/science/article/pii/S0360319925027661" target="_blank" rel="noopener noreferrer">Galletti et al. (2025) · Elektrolyse-Lernkurven</a>. Stand: November 2026; Einschätzungen sind Modellierungs-Empfehlungen, keine empirisch kalibrierten Lernraten.</p>
+  </section>
+  <script src="/part-1.js" defer></script>
+
+  <p class="sources">Inhaltliche Referenzen: <a href="https://www.ise.fraunhofer.de/en/research-projects/transde.html" target="_blank" rel="noopener noreferrer">Fraunhofer ISE · TransDE / REMod</a> · <a href="https://pypsa-eur.readthedocs.io/en/latest/design/overview/" target="_blank" rel="noopener noreferrer">PyPSA-Eur · Energy and carbon flows</a>. Diese Website ist eine eigenständige schematische Lern- und Diskussionsdarstellung, kein normiertes Fließbild oder Prozesssimulator.</p>
+  <section class="security-info" aria-label="Datenschutz"><strong>🔒 Transparente Technik</strong> · Keine externen Skripte, keine Cookies, keine Anmeldung und keine Erhebung persönlicher Daten. Die Interaktivität läuft im Browser; externe Referenzen öffnen sich nur bei Klick.</section>
+  <p class="footer">Energiesystem-Atlas · Interaktiver Diskussionsentwurf · Version 1.1 · Keine realen Netz- oder Stoffflussmengen dargestellt.</p>
+</main>
+<script src="/part-2.js" defer></script>
+</body>
+</html>
