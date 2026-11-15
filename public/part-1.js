@@ -44,7 +44,7 @@
     }catch{}
     const T=(de,en)=>window.AtlasI18n?.t(de,en)??de;
     function publishForecastSelection(){
-      const entries=originals.map((tech,i)=>({name:tech.n,displayName:list[i].n,priority:tech.p,included:!!selected[i]}));
+      const entries=originals.map((tech,i)=>({name:tech.n,displayName:list[i].n,priority:tech.p,included:!!selected[i],group:tech.g,displayGroup:list[i].g,goal:tech.f,displayGoal:list[i].f,evidence:tech.e,method:tech.m,driver:tech.q,rationale:tech.why,displayRationale:list[i].why,displayDriver:list[i].q,sourceTitle:source[tech.src]?.[0]||'',sourceUrl:source[tech.src]?.[1]||''}));
       window.AtlasForecastState=entries;
       window.dispatchEvent(new CustomEvent('atlas:forecast-selection',{detail:{entries}}));
     }
