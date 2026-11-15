@@ -46,107 +46,118 @@
     <p class="learning-citations"><strong>Literatur- und Datenanker:</strong> <a href="https://www.iea.org/reports/clean-energy-innovation/innovation-needs-in-the-sustainable-development-scenario" target="_blank" rel="noopener noreferrer">IEA · Experience Curves</a> · <a href="https://www.iea.org/reports/energy-technology-perspectives-2026" target="_blank" rel="noopener noreferrer">IEA · Energy Technology Perspectives 2026</a> · <a href="https://data.openei.org/submissions/8759" target="_blank" rel="noopener noreferrer">ATB 2025 · Technologiekosten-Szenarien</a> · <a href="https://www.iea.org/reports/global-hydrogen-review-2025" target="_blank" rel="noopener noreferrer">IEA · Global Hydrogen Review 2025</a> · <a href="https://www.sciencedirect.com/science/article/pii/S0360319925027661" target="_blank" rel="noopener noreferrer">Galletti et al. (2025) · Elektrolyse-Lernkurven</a>. Stand: November 2026; Einschätzungen sind Modellierungs-Empfehlungen, keine empirisch kalibrierten Lernraten.</p>
   </section>
 
+
   <section class="model-logic" id="model-logic" aria-labelledby="model-logic-title">
-    <div class="model-logic-head">
-      <div class="eyebrow" data-model-text="eyebrow">MASTERARBEIT · MODELLARCHITEKTUR · ZIELJAHR 2060</div>
-      <h2 id="model-logic-title" data-model-text="heading">Wie greifen Daten, Forecasting und Optimierung ineinander?</h2>
-      <p data-model-text="intro">Die <strong>links gesammelten Daten</strong> fließen teilweise direkt als Randbedingungen in den Optimierer und teilweise vorher in ein Forecasting-Modell. Der Optimierer findet den kostenminimalen Energiemix für 2060. Die oben ausgewählten Learning-by-Doing-Technologien erscheinen automatisch im Forecasting-Block.</p>
-    </div>
+    <header class="model-logic-head">
+      <div class="eyebrow" data-model-text="eyebrow">FORSCHUNGSDESIGN · MODELLLOGIK 2060</div>
+      <h2 id="model-logic-title" data-model-text="heading">Zwei Eingangswege, ein kostenoptimaler Energiemix</h2>
+      <p data-model-text="intro">Exogene Entwicklungen werden vorab prognostiziert oder als Szenario definiert. Die Technologiekandidaten gehen mit Kosten- und Leistungsannahmen direkt in den Greenfield-Optimierer – dieser entscheidet selbst, welche Kombination im Zieljahr 2060 optimal ist.</p>
+    </header>
     <div class="model-logic-body">
-      <div class="model-flow" aria-label="Inputs fließen entweder direkt oder über Forecasting in die Greenfield-Optimierung. Ergebnis ist die optimale erneuerbare Penetrationsrate und minimale Systemkosten für 2060.">
+      <div class="model-flow">
         <article class="model-panel model-panel-input">
-          <div class="model-kicker" data-model-text="inputKicker">01 · INPUTS / DATEN</div>
-          <h3 data-model-text="inputTitle">Datenbasis & exogene Annahmen</h3>
-          <p data-model-text="inputDesc">Historische Daten und Rahmenbedingungen, die wir für Deutschland und Japan sammeln.</p>
+          <div class="model-kicker" data-model-text="inputKicker">INPUT A · EXOGENE DATEN</div>
+          <h3 data-model-text="inputTitle">Was wir prognostizieren</h3>
+          <p data-model-text="inputDesc">Historische Daten und externe Einflussgrößen für Deutschland und Japan.</p>
           <ul>
-            <li data-model-text="input1">Historische Stromlast, Lastprofile und sektorale Nachfrageindikatoren</li>
-            <li data-model-text="input2">Stündliche Wetterdaten sowie Wind- und Solarressourcen</li>
-            <li data-model-text="input3">Technologieparameter: CAPEX, OPEX, Wirkungsgrad, Lebensdauer</li>
-            <li data-model-text="input4">Flächen-, Netz-, Speicher- und Rohstoffpotenziale</li>
-            <li data-model-text="input5">Politische Vorgaben, CO₂-Grenzen und Genehmigungsregeln</li>
-            <li data-model-text="input6">Resilienz-, Ausfall- und Risikoszenarien</li>
+            <li data-model-text="input1">Stromnachfrage inkl. Rechenzentren und Elektrifizierung</li>
+            <li data-model-text="input2">Sektoraler Bedarf: Mobilität, H₂ und Wärme (soweit modelliert)</li>
+            <li data-model-text="input3">Wetter- und Klimadaten, Wind-/Solarprofile</li>
+            <li data-model-text="input4">Brennstoff-, CO₂- und ggf. Rohstoffpreisszenarien</li>
+            <li data-model-text="input5">Politische Szenarien, CO₂-Ziele und Technologiegrenzen</li>
+            <li data-model-text="input6">Katastrophen-, Ausfall- und Resilienzannahmen</li>
           </ul>
-          <p class="model-footnote" data-model-text="inputNote">Ein Teil der Inputdaten geht direkt in den Optimierer (z. B. technische Restriktionen). Andere Größen werden zuerst für 2060 prognostiziert.</p>
+          <p class="model-footnote" data-model-text="inputNote">Nicht jeder Punkt wird mit ML vorhergesagt: Politik, Risiken und manche Ressourcen werden als exogene Szenarien oder feste Restriktionen definiert.</p>
         </article>
 
         <div class="model-arrow model-arrow-forecast" aria-hidden="true">
-          <span class="model-arrow-line"></span><small data-model-text="arrowForecast">Forecast-<wbr>daten</small>
+          <span class="model-arrow-line"></span><small data-model-text="arrowForecast">Zeitreihen / Szenarien</small>
         </div>
 
         <article class="model-panel model-panel-forecast">
-          <div class="model-kicker" data-model-text="forecastKicker">02 · FORECASTING-METHODE</div>
-          <h3 data-model-text="forecastTitle">Exogene Zukunftspfade für 2060</h3>
-          <p data-model-text="forecastDesc">Forecasting bzw. Szenarioannahmen liefern die Größen, die vor der Optimierung feststehen.</p>
-          <ul>
-            <li data-model-text="forecast1">Stromnachfrage 2060, z. B. Elektrifizierung und Rechenzentren</li>
-            <li data-model-text="forecast2">Wetter- und Verfügbarkeitsprofile für das Zieljahr / repräsentative Wetterjahre</li>
-            <li data-model-text="forecast3">Technologiekosten 2060: Learning-by-Doing für ausgewählte Kandidaten</li>
-            <li data-model-text="forecast4">Politische und resilienzbezogene Szenarioparameter</li>
-          </ul>
-          <div class="model-selected" aria-label="Auswahl der Learning-by-Doing-Technologien">
-            <div class="model-selected-title">
-              <span data-model-text="selectedTitle">Für Learning-by-Doing-Forecast ausgewählt</span>
-              <span class="model-selected-count" id="model-selected-count">–</span>
-            </div>
-            <div class="model-selected-list" id="model-selected-techs" aria-live="polite" aria-atomic="true">
-              <span class="model-chip-empty" data-model-text="loading">Lade Auswahl …</span>
-            </div>
-            <p class="model-selected-hint" data-model-text="selectedHint">Häkchen in der Tabelle oben setzen oder entfernen: Diese Liste ändert sich sofort.</p>
+          <div class="model-kicker" data-model-text="forecastKicker">MODELL A · FORECASTING</div>
+          <h3 data-model-text="forecastTitle">Exogene Prognosen und Szenarien bis 2060</h3>
+          <p data-model-text="forecastDesc">ML, Zeitreihenmodelle oder Szenarioannahmen bestimmen die externe Systemumgebung. Hier wird nicht entschieden, welche Kraftwerke gebaut werden.</p>
+          <div class="model-prediction-grid">
+            <div><strong data-model-text="forecast1Head">Nachfragepfade</strong><span data-model-text="forecast1">Gesamtnachfrage, Sektoren, Datenzentren</span></div>
+            <div><strong data-model-text="forecast2Head">Wetter / Ressourcen</strong><span data-model-text="forecast2">Stündliche Profile / repräsentative Wetterjahre</span></div>
+            <div><strong data-model-text="forecast3Head">Externe Rahmenbedingungen</strong><span data-model-text="forecast3">Brennstoffe, CO₂-Preise, Flächen, Politik</span></div>
+            <div><strong data-model-text="forecast4Head">Risikoszenarien</strong><span data-model-text="forecast4">Ausfälle, Naturgefahren, Resilienzanforderungen</span></div>
           </div>
+          <p class="model-footnote" data-model-text="forecastNote">Output: Für jeden untersuchten Fall ein konsistenter exogener Datensatz für das Zieljahr 2060.</p>
         </article>
 
         <div class="model-arrow-down" aria-hidden="true">
-          <small data-model-text="arrowDown">Exogene Forecasts</small>
+          <small data-model-text="arrowDown">Prognosen / Restriktionen 2060</small>
           <span class="model-vline"></span>
         </div>
 
+        <article class="model-panel model-panel-technologies">
+          <div class="model-kicker" data-model-text="techKicker">INPUT B · TECHNOLOGIEKATALOG</div>
+          <h3 data-model-text="techTitle">Technologien direkt in den Optimierer</h3>
+          <p data-model-text="techDesc">Alle hier aufgeführten Optionen bleiben mögliche Bausteine des Optimierers, soweit sie zur Modellgrenze und zu den Zulässigkeitsregeln passen. Die LBD-Auswahl ändert nur die Kostenannahme, nicht die Zulässigkeit.</p>
+          <div class="model-tech-meta"><span id="model-tech-count">29</span><span data-model-text="techCountLabel">Kostenkomponenten / Kandidaten</span></div>
+          <div class="model-tech-scroll" id="model-tech-list" aria-label="Ausklappbare Technologieannahmen und wissenschaftliche Quellen">
+            <p class="model-placeholder" data-model-text="loading">Technologien werden geladen …</p>
+          </div>
+          <p class="model-footnote" data-model-text="techNote">Aufklappen zeigt unsere vorläufige 2060-Annahme, die Kostenfunktion und einen Quellenanker. Modul- und Systemkosten sind Komponenten desselben Anlagenmodells, keine doppelten Ausbauentscheidungen.</p>
+        </article>
+
         <div class="model-arrow model-arrow-direct" aria-hidden="true">
-          <span class="model-arrow-line"></span><small data-model-text="arrowDirect">Direkte Modell-<wbr>inputs</small>
+          <span class="model-arrow-line"></span><small data-model-text="arrowDirect">Technologie- &amp; Kostenparameter</small>
         </div>
 
         <article class="model-panel model-panel-opt">
-          <div class="model-kicker" data-model-text="optimizerKicker">03 · GREENFIELD-OPTIMIERER</div>
-          <h3 data-model-text="optimizerTitle">Optimierung des Zieljahres 2060</h3>
-          <p data-model-text="optimizerDesc">Der Optimierer erhält Forecasts und weitere feste Inputs. Er prüft die zulässigen Kombinationen und minimiert die Kosten des Energiesystems im Jahr 2060.</p>
-          <ul>
-            <li data-model-text="opt1">Endogen: Kapazitäten für Wind, PV, Speicher, Konverter und ggf. Netzausbau</li>
-            <li data-model-text="opt2">Endogen: stündlicher Dispatch, Speicherbetrieb und Energieflüsse</li>
-            <li data-model-text="opt3">Restriktionen: Nachfrage, CO₂-Budget, technische Grenzen, Resilienz</li>
-            <li data-model-text="opt4">Zielfunktion: minimale jährliche Systemkosten 2060 (annualisierte Investitions- und Betriebskosten)</li>
-          </ul>
-          <p class="model-footnote" data-model-text="optimizerNote">Auch eine rot markierte Technologie kann im Optimierer berücksichtigt werden. Rot heißt nur: kein separater Learning-by-Doing-Forecast vorgesehen.</p>
+          <div class="model-kicker" data-model-text="optimizerKicker">MODELL B · GREENFIELD-OPTIMIERER</div>
+          <h3 data-model-text="optimizerTitle">Endogene Systemoptimierung im Jahr 2060</h3>
+          <p data-model-text="optimizerDesc">Hier werden Technologieoptionen mit ihren vorab festgelegten Kosten und technischen Eigenschaften gemeinsam optimiert. Nicht jede Technologie muss tatsächlich gebaut werden.</p>
+          <div class="model-opt-focus">
+            <strong data-model-text="optFocusHead">Der Optimierer entscheidet</strong>
+            <div class="model-opt-list">
+              <span data-model-text="opt1">Installierte Kapazitäten und Technologiemix</span>
+              <span data-model-text="opt2">Speichergrößen, Netz- und Konverterausbau</span>
+              <span data-model-text="opt3">Stündlichen Dispatch und Energieflüsse</span>
+            </div>
+          </div>
+          <div class="model-objective">
+            <strong data-model-text="objectiveHead">Zielfunktion</strong>
+            <code data-model-text="objectiveMath">min Systemkosten(2060)</code>
+            <span data-model-text="objectiveNote">Annualisierte Investitionen + fixe und variable Betriebskosten im Zieljahr, unter Nachfrage-, CO₂-, Technik- und Resilienzrestriktionen.</span>
+          </div>
+          <p class="model-footnote" data-model-text="optimizerNote">Learning-by-Doing ist keine endogene Technologiewahl: Die Kostenfunktion ist exogen parametriert; die Entscheidung über den Ausbau ist endogen.</p>
         </article>
 
         <div class="model-arrow model-arrow-result" aria-hidden="true">
-          <span class="model-arrow-line"></span><small data-model-text="arrowOutput">Optimales<br>System</small>
+          <span class="model-arrow-line"></span><small data-model-text="arrowOutput">Optimum</small>
         </div>
 
         <article class="model-panel model-panel-out">
-          <div class="model-kicker" data-model-text="outputKicker">04 · OUTPUT / FORSCHUNGSERGEBNIS</div>
-          <h3 data-model-text="outputTitle">Kostenoptimales Energiesystem</h3>
+          <div class="model-kicker" data-model-text="outputKicker">OUTPUT · ZIEL 2060</div>
+          <h3 data-model-text="outputTitle">Ergebnis des Optimierers</h3>
           <div class="model-outcome">
-            <strong data-model-text="resultPrimary">Optimale Renewable Penetration Rate 2060</strong>
-            <span data-model-text="resultSubtitle">EE-Anteil des kostenminimalen Systems unter den gewählten Szenarioannahmen</span>
+            <strong data-model-text="resultPrimary">Optimale Renewable Penetration Rate</strong>
+            <span data-model-text="resultSubtitle">Im kostenminimalen Energiesystem 2060</span>
           </div>
           <ul>
-            <li data-model-text="output1">Minimale jährliche Gesamtsystemkosten im Zieljahr 2060</li>
-            <li data-model-text="output2">Optimaler Technologie-, Speicher- und Kapazitätsmix</li>
-            <li data-model-text="output3">Emissionen, Resilienz und Sensitivitäten</li>
-            <li data-model-text="output4">Vergleich der Fallstudien Deutschland und Japan</li>
+            <li data-model-text="output1">Minimale jährliche Systemkosten 2060</li>
+            <li data-model-text="output2">Optimaler Ausbau- und Technologiemix</li>
+            <li data-model-text="output3">Emissionen und Resilienzergebnisse</li>
+            <li data-model-text="output4">Deutschland–Japan-Vergleich</li>
           </ul>
-          <p class="model-footnote" data-model-text="outputNote">Nicht minimiert werden die kumulierten Kosten von heute bis 2060. Bewertet wird das System im Zieljahr.</p>
+          <p class="model-footnote" data-model-text="outputNote">Keine kumulierte Kostenminimierung bis 2060. Die Kosten werden für das Zieljahr bewertet.</p>
         </article>
       </div>
+
       <div class="model-explain">
-        <strong data-model-text="principleLabel">Methodisches Prinzip:</strong>
-        <span data-model-text="principle"> Eine Technologie per Checkbox zum Learning-by-Doing-Forecast hinzuzufügen, bedeutet, dass wir für sie einen exogenen 2060-Kostenpfad erarbeiten wollen. Der Optimierer entscheidet anschließend selbst, ob und wie viel dieser Technologie im kostenminimalen System eingesetzt wird. Für nicht ausgewählte Technologien können weiterhin Kostenannahmen aus Studien und Szenarien gelten.</span>
+        <strong data-model-text="principleLabel">Wichtige Trennung:</strong>
+        <span data-model-text="principle"> Die Forecasting-Methode prognostiziert externe Entwicklungen. Der Technologiekatalog enthält die Optionen und Kostenfunktionen für den Optimierer. Grün in der Learning-by-Doing-Tabelle heißt „LBD-Kostenansatz“, Rot heißt „Studien-/Szenariokosten“ – beides kann der Optimierer wählen. Die endgültigen Kostenparameter müssen vor einer echten Modellrechnung empirisch kalibriert werden.</span>
       </div>
       <div class="model-flow-note">
-        <span><b data-model-text="footExo">Exogen:</b> <span data-model-text="footExoText">Nachfrage, Wetter-/Ressourcenprofile, Kostenszenarien, Politiken</span></span>
-        <span><b data-model-text="footEndo">Endogen:</b> <span data-model-text="footEndoText">Ausbaukapazitäten, Dispatch, Energieströme und EE-Anteil</span></span>
-        <span><b data-model-text="footYear">Ziel:</b> <span data-model-text="footYearText">Kostenminimum ausschließlich für das Jahr 2060</span></span>
+        <span><b data-model-text="footExo">Exogen:</b> <span data-model-text="footExoText">Nachfrage, Wetter, Kostenparameter, Policies</span></span>
+        <span><b data-model-text="footEndo">Endogen:</b> <span data-model-text="footEndoText">Kapazitäten, Mix, Dispatch, EE-Anteil</span></span>
+        <span><b data-model-text="footYear">Ziel:</b> <span data-model-text="footYearText">Jährliches Kostenminimum für 2060</span></span>
       </div>
-      <a class="model-quicklink" href="#learning-section" data-model-text="backToSelection">↑ Learning-by-Doing-Auswahl bearbeiten</a>
+      <a class="model-quicklink" href="#learning-section" data-model-text="backToSelection">↑ LBD-Kostenannahmen oben auswählen</a>
     </div>
   </section>
 
