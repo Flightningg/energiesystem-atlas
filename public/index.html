@@ -40,7 +40,7 @@
     <div class="learning-summary"><span id="learning-count" aria-live="polite"></span><button class="learning-export" type="button" id="learning-csv">↓ Komplette Liste als CSV</button></div>
     <div class="forecast-legend" aria-label="Legende für die Forecast-Auswahl"><span class="forecast-legend-in"><i></i>Transparentes Grün: Learning-by-Doing-Kostenansatz</span><span class="forecast-legend-out"><i></i>Transparentes Rot: Studien-/Szenariokosten</span><small>Beide Farben kennzeichnen Kostenannahmen – nicht, ob eine Technologie im Optimierer zugelassen ist.</small></div>
     <div class="learning-guidance">
-      <article><h3>Empfohlene Priorisierung für Deutschland &amp; Japan</h3><p><strong>Zuerst</strong> PV, Onshore-/Offshore-Wind und Batteriespeicher. <strong>Danach</strong> Elektrolyse und CO₂-Abscheidung, sofern Bestandteil der Modellgrenze. Wärme, Ammoniak und weitere Technologieketten zunächst als optionale Erweiterungen. Für jeden Modelllauf exogene Low-/Base-/High-Kostenpfade für 2030, 2040, 2050 und 2060 definieren.</p></article>
+      <article><h3>Empfohlene Priorisierung für Deutschland &amp; Japan</h3><p><strong>Zuerst</strong> PV, Onshore-/Offshore-Wind und Batteriespeicher. <strong>Danach</strong> Elektrolyse und CO₂-Abscheidung, sofern Bestandteil der Modellgrenze. Wärme, Ammoniak und weitere Technologieketten zunächst als optionale Erweiterungen. Für studienbasierte Kosten Low-/Base-/High-Pfade je Modellperiode definieren. Für endogenes Lernen Referenzkosten, kumulierte Anfangskapazität und Lernrate erfassen.</p></article>
       <article><h3>Wissenschaftlich saubere Abgrenzung</h3><p><strong>Learning-by-Doing</strong> ist nicht automatisch identisch mit allgemeinen Kostenreduktionen durch F&amp;E, Materialpreise, Skaleneffekte oder Zinsänderungen. Die empirische Evidenz ist je Technologie verschieden. <strong>Wasserstoff, Ammoniak, Strom und CO₂ sind Energieträger/Stoffströme – keine Lernkurven-Technologien.</strong> Ihre Herstellung bzw. Umwandlung kann dagegen Gegenstand eines Forecasts sein.</p></article>
     </div>
     <p class="learning-citations"><strong>Literatur- und Datenanker:</strong> <a href="https://www.iea.org/reports/clean-energy-innovation/innovation-needs-in-the-sustainable-development-scenario" target="_blank" rel="noopener noreferrer">IEA · Experience Curves</a> · <a href="https://www.iea.org/reports/energy-technology-perspectives-2026" target="_blank" rel="noopener noreferrer">IEA · Energy Technology Perspectives 2026</a> · <a href="https://data.openei.org/submissions/8759" target="_blank" rel="noopener noreferrer">ATB 2025 · Technologiekosten-Szenarien</a> · <a href="https://www.iea.org/reports/global-hydrogen-review-2025" target="_blank" rel="noopener noreferrer">IEA · Global Hydrogen Review 2025</a> · <a href="https://www.sciencedirect.com/science/article/pii/S0360319925027661" target="_blank" rel="noopener noreferrer">Galletti et al. (2025) · Elektrolyse-Lernkurven</a>. Stand: November 2026; Einschätzungen sind Modellierungs-Empfehlungen, keine empirisch kalibrierten Lernraten.</p>
@@ -51,7 +51,7 @@
     <header class="model-logic-head">
       <div class="eyebrow" data-model-text="eyebrow">FORSCHUNGSDESIGN · MODELLLOGIK 2060</div>
       <h2 id="model-logic-title" data-model-text="heading">Zwei Eingangswege, ein kostenoptimaler Energiemix</h2>
-      <p data-model-text="intro">Exogene Entwicklungen werden vorab prognostiziert oder als Szenario definiert. Die Technologiekandidaten gehen mit Kosten- und Leistungsannahmen direkt in den Greenfield-Optimierer – dieser entscheidet selbst, welche Kombination im Zieljahr 2060 optimal ist.</p>
+      <p data-model-text="intro">Exogene Prognosen und Technologieannahmen speisen den dynamischen Greenfield-Optimierer über getrennte Eingänge. Er bestimmt den kostenoptimalen Ausbaupfad bis 2060.</p>
     </header>
     <div class="model-logic-body">
       <div class="model-flow">
@@ -84,11 +84,11 @@
             <div><strong data-model-text="forecast3Head">Externe Rahmenbedingungen</strong><span data-model-text="forecast3">Brennstoffe, CO₂-Preise, Flächen, Politik</span></div>
             <div><strong data-model-text="forecast4Head">Risikoszenarien</strong><span data-model-text="forecast4">Ausfälle, Naturgefahren, Resilienzanforderungen</span></div>
           </div>
-          <p class="model-footnote" data-model-text="forecastNote">Output: Für jeden untersuchten Fall ein konsistenter exogener Datensatz für das Zieljahr 2060.</p>
+          <p class="model-footnote" data-model-text="forecastNote">Prognosen und Szenarien liefern Eingabedaten für jede Modellperiode bis 2060.</p>
         </article>
 
         <div class="model-arrow-down" aria-hidden="true">
-          <small data-model-text="arrowDown">Prognosen / Restriktionen 2060</small>
+          <small data-model-text="arrowDown">Exogene Pfade je Periode</small>
           <span class="model-vline"></span>
         </div>
 
@@ -104,27 +104,37 @@
         </article>
 
         <div class="model-arrow model-arrow-direct" aria-hidden="true">
-          <span class="model-arrow-line"></span><small data-model-text="arrowDirect">Technologie- &amp; Kostenparameter</small>
+          <span class="model-arrow-line"></span><small data-model-text="arrowDirect">Technologie- und Lernparameter → Optimierer</small>
         </div>
 
         <article class="model-panel model-panel-opt">
           <div class="model-kicker" data-model-text="optimizerKicker">MODELL B · GREENFIELD-OPTIMIERER</div>
-          <h3 data-model-text="optimizerTitle">Endogene Systemoptimierung im Jahr 2060</h3>
-          <p data-model-text="optimizerDesc">Hier werden Technologieoptionen mit ihren vorab festgelegten Kosten und technischen Eigenschaften gemeinsam optimiert. Nicht jede Technologie muss tatsächlich gebaut werden.</p>
+          <h3 data-model-text="optimizerTitle">Dynamische Systemoptimierung bis 2060</h3>
+          <p data-model-text="optimizerDesc">Der Optimierer entscheidet gemeinsam über Investitionen und Betrieb in mehreren Perioden. Frühere Investitionen beeinflussen verfügbare Kapazitäten und bei lernenden Technologien die Kosten späterer Investitionen.</p>
           <div class="model-opt-focus">
             <strong data-model-text="optFocusHead">Der Optimierer entscheidet</strong>
             <div class="model-opt-list">
-              <span data-model-text="opt1">Installierte Kapazitäten und Technologiemix</span>
+              <span data-model-text="opt1">Zubau und Technologiemix je Periode</span>
               <span data-model-text="opt2">Speichergrößen, Netz- und Konverterausbau</span>
               <span data-model-text="opt3">Stündlichen Dispatch und Energieflüsse</span>
             </div>
           </div>
+          <div class="model-opt-focus">
+            <strong data-model-text="learningTitle">Endogenous Learning by Doing</strong>
+            <p data-model-text="learningInputs">Direkter Input aus dem Technologiekatalog: Referenzkosten, anfängliche kumulierte Kapazität und Lernrate je Technologie.</p>
+            <ol>
+              <li data-model-text="learning1">Investitionsentscheidung in Jahr t</li>
+              <li data-model-text="learning2">Zubau erhöht die kumulierte Erfahrungskapazität</li>
+              <li data-model-text="learning3">Lernkurve senkt die spezifischen Investitionskosten ab t+1</li>
+            </ol>
+            <p data-model-text="learning4">Die neuen Kosten fließen in spätere Investitionsentscheidungen ein.</p>
+          </div>
           <div class="model-objective">
             <strong data-model-text="objectiveHead">Zielfunktion</strong>
-            <code data-model-text="objectiveMath">min Systemkosten(2060)</code>
-            <span data-model-text="objectiveNote">Annualisierte Investitionen + fixe und variable Betriebskosten im Zieljahr, unter Nachfrage-, CO₂-, Technik- und Resilienzrestriktionen.</span>
+            <code data-model-text="objectiveMath">min Σₜ Barwert(Investitions- und Betriebskostenₜ)</code>
+            <span data-model-text="objectiveNote">Die Zielfunktion bewertet alle Modellperioden unter Nachfrage-, CO₂-, Technik- und Resilienzrestriktionen.</span>
           </div>
-          <p class="model-footnote" data-model-text="optimizerNote">Learning-by-Doing ist keine endogene Technologiewahl: Die Kostenfunktion ist exogen parametriert; die Entscheidung über den Ausbau ist endogen.</p>
+          <p class="model-footnote" data-model-text="optimizerNote">Die Lernrate ist vorgegeben. Die durch den Ausbau ausgelöste Kostenänderung entsteht im Modell.</p>
         </article>
 
         <div class="model-arrow model-arrow-result" aria-hidden="true">
@@ -139,23 +149,23 @@
             <span data-model-text="resultSubtitle">Im kostenminimalen Energiesystem 2060</span>
           </div>
           <ul>
-            <li data-model-text="output1">Minimale jährliche Systemkosten 2060</li>
+            <li data-model-text="output1">Minimale diskontierte Systemkosten über den Planungshorizont</li>
             <li data-model-text="output2">Optimaler Ausbau- und Technologiemix</li>
             <li data-model-text="output3">Emissionen und Resilienzergebnisse</li>
             <li data-model-text="output4">Deutschland–Japan-Vergleich</li>
           </ul>
-          <p class="model-footnote" data-model-text="outputNote">Keine kumulierte Kostenminimierung bis 2060. Die Kosten werden für das Zieljahr bewertet.</p>
+          <p class="model-footnote" data-model-text="outputNote">Der EE-Anteil 2060 ergibt sich aus dem kostenoptimalen Ausbau- und Betriebspfad.</p>
         </article>
       </div>
 
       <div class="model-explain">
         <strong data-model-text="principleLabel">Wichtige Trennung:</strong>
-        <span data-model-text="principle"> Die Forecasting-Methode prognostiziert externe Entwicklungen. Der Technologiekatalog enthält die Optionen und Kostenfunktionen für den Optimierer. Grün in der Learning-by-Doing-Tabelle heißt „LBD-Kostenansatz“, Rot heißt „Studien-/Szenariokosten“ – beides kann der Optimierer wählen. Die endgültigen Kostenparameter müssen vor einer echten Modellrechnung empirisch kalibriert werden.</span>
+        <span data-model-text="principle">Prognosen und Szenarien liefern externe Pfade. Der Technologiekatalog liefert Lernparameter und studienbasierte Kostenannahmen direkt an den Optimierer.</span>
       </div>
       <div class="model-flow-note">
-        <span><b data-model-text="footExo">Exogen:</b> <span data-model-text="footExoText">Nachfrage, Wetter, Kostenparameter, Policies</span></span>
-        <span><b data-model-text="footEndo">Endogen:</b> <span data-model-text="footEndoText">Kapazitäten, Mix, Dispatch, EE-Anteil</span></span>
-        <span><b data-model-text="footYear">Ziel:</b> <span data-model-text="footYearText">Jährliches Kostenminimum für 2060</span></span>
+        <span><b data-model-text="footExo">Exogen:</b> <span data-model-text="footExoText">Nachfrage, Wetter, Politik, Lernparameter</span></span>
+        <span><b data-model-text="footEndo">Endogen:</b> <span data-model-text="footEndoText">Zubau, Lernkosten, Dispatch, EE-Anteil</span></span>
+        <span><b data-model-text="footYear">Ziel:</b> <span data-model-text="footYearText">Kostenoptimaler Pfad bis 2060</span></span>
       </div>
       <a class="model-quicklink" href="#learning-section" data-model-text="backToSelection">↑ LBD-Kostenannahmen oben auswählen</a>
     </div>
