@@ -43,7 +43,12 @@
       else{const saved=JSON.parse(localStorage.getItem(key)||'null');if(Array.isArray(saved)&&saved.length===list.length)saved.forEach((v,i)=>selected[i]=!!v)}
     }catch{}
     const T=(de,en)=>window.AtlasI18n?.t(de,en)??de;
-    function save(){try{localStorage.setItem(key,JSON.stringify(selected))}catch{};const params=new URLSearchParams(location.search);params.set('forecast',selected.map(v=>v?'1':'0').join(''));try{history.replaceState({},'',location.pathname+'?'+params.toString()+location.hash)}catch{}}
+    function publishForecastSelection(){
+      const entries=originals.map((tech,i)=>({name:tech.n,displayName:list[i].n,priority:tech.p,included:!!selected[i]}));
+      window.AtlasForecastState=entries;
+      window.dispatchEvent(new CustomEvent('atlas:forecast-selection',{detail:{entries}}));
+    }
+    function save(){try{localStorage.setItem(key,JSON.stringify(selected))}catch{};const params=new URLSearchParams(location.search);params.set('forecast',selected.map(v=>v?'1':'0').join(''));try{history.replaceState({},'',location.pathname+'?'+params.toString()+location.hash)}catch{};publishForecastSelection()}
 
     const E=(tag,cls,txt)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(txt!==undefined)x.textContent=txt;return x};
     function filters(){filterGroup.replaceChildren();['Alle','P1','P2','P3'].forEach(p=>{const b=E('button','',p==='Alle'?T('Alle Prioritäten','All priorities'):p+' · '+(p==='P1'?T('Zuerst prüfen','First priority'):p==='P2'?T('Optionale Vertiefung','Optional follow-up'):T('Nachrangig','Lower priority')));b.type='button';b.setAttribute('aria-pressed',String(active===p));b.onclick=()=>{active=p;render()};filterGroup.appendChild(b)})}
@@ -59,7 +64,7 @@
         Object.assign(t,originals[i]);
         if(en){const v=dict[originals[i].n];if(v)Object.assign(t,{n:v[0],g:v[1],f:v[2],e:v[3],m:v[4],q:v[5],why:v[6]})}
       });
-      search.value='';expanded=null;render();
+      search.value='';expanded=null;render();publishForecastSelection();
     });
     render();save();
   })();
