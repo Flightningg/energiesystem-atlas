@@ -1,137 +1,65 @@
-
 (function(){
 'use strict';
-const TRANSLATIONS={
-  de:{
-    eyebrow:'MASTERARBEIT · MODELLARCHITEKTUR · ZIELJAHR 2060',
-    heading:'Wie greifen Daten, Forecasting und Optimierung ineinander?',
-    intro:'Die links gesammelten Daten fließen teilweise direkt als Randbedingungen in den Optimierer und teilweise vorher in ein Forecasting-Modell. Der Optimierer findet den kostenminimalen Energiemix für 2060. Die oben ausgewählten Learning-by-Doing-Technologien erscheinen automatisch im Forecasting-Block.',
-    inputKicker:'01 · INPUTS / DATEN', inputTitle:'Datenbasis & exogene Annahmen',
-    inputDesc:'Historische Daten und Rahmenbedingungen, die wir für Deutschland und Japan sammeln.',
-    input1:'Historische Stromlast, Lastprofile und sektorale Nachfrageindikatoren',
-    input2:'Stündliche Wetterdaten sowie Wind- und Solarressourcen',
-    input3:'Technologieparameter: CAPEX, OPEX, Wirkungsgrad, Lebensdauer',
-    input4:'Flächen-, Netz-, Speicher- und Rohstoffpotenziale',
-    input5:'Politische Vorgaben, CO₂-Grenzen und Genehmigungsregeln',
-    input6:'Resilienz-, Ausfall- und Risikoszenarien',
-    inputNote:'Ein Teil der Inputdaten geht direkt in den Optimierer (z. B. technische Restriktionen). Andere Größen werden zuerst für 2060 prognostiziert.',
-    arrowForecast:'Für Forecasts', arrowDirect:'Direkt als Input',
-    forecastKicker:'02 · FORECASTING-METHODE',forecastTitle:'Exogene Zukunftspfade für 2060',
-    forecastDesc:'Forecasting bzw. Szenarioannahmen liefern die Größen, die vor der Optimierung feststehen.',
-    forecast1:'Stromnachfrage 2060, z. B. Elektrifizierung und Rechenzentren',
-    forecast2:'Wetter- und Verfügbarkeitsprofile für das Zieljahr / repräsentative Wetterjahre',
-    forecast3:'Technologiekosten 2060: Learning-by-Doing für ausgewählte Kandidaten',
-    forecast4:'Politische und resilienzbezogene Szenarioparameter',
-    selectedTitle:'Für Learning-by-Doing-Forecast ausgewählt',selectedHint:'Häkchen in der Tabelle oben setzen oder entfernen: Diese Liste ändert sich sofort.',
-    loading:'Lade Auswahl …',empty:'Keine Technologien für Learning-by-Doing ausgewählt',
-    arrowDown:'Exogene Forecasts',arrowOutput:'Optimales System',
-    optimizerKicker:'03 · GREENFIELD-OPTIMIERER',optimizerTitle:'Optimierung des Zieljahres 2060',
-    optimizerDesc:'Der Optimierer erhält Forecasts und weitere feste Inputs. Er sucht die zulässige Technologiekombination und minimiert die Kosten des Energiesystems im Jahr 2060.',
-    opt1:'Endogen: Kapazitäten für Wind, PV, Speicher, Konverter und ggf. Netzausbau',
-    opt2:'Endogen: stündlicher Dispatch, Speicherbetrieb und Energieflüsse',
-    opt3:'Restriktionen: Nachfrage, CO₂-Budget, technische Grenzen, Resilienz',
-    opt4:'Zielfunktion: minimale jährliche Systemkosten 2060 (annualisierte Investitions- und Betriebskosten)',
-    optimizerNote:'Auch eine rot markierte Technologie kann im Optimierer berücksichtigt werden. Rot heißt nur: kein separater Learning-by-Doing-Forecast vorgesehen.',
-    outputKicker:'04 · OUTPUT / FORSCHUNGSERGEBNIS',outputTitle:'Kostenoptimales Energiesystem',
-    resultPrimary:'Optimale Renewable Penetration Rate 2060',
-    resultSubtitle:'EE-Anteil des kostenminimalen Systems unter den gewählten Szenarioannahmen',
-    output1:'Minimale jährliche Gesamtsystemkosten im Zieljahr 2060',
-    output2:'Optimaler Technologie-, Speicher- und Kapazitätsmix',
-    output3:'Emissionen, Resilienz und Sensitivitäten',
-    output4:'Vergleich der Fallstudien Deutschland und Japan',
-    outputNote:'Nicht minimiert werden die kumulierten Kosten von heute bis 2060. Bewertet wird das System im Zieljahr.',
-    principleLabel:'Methodisches Prinzip:',
-    principle:'Eine Technologie per Checkbox zum Learning-by-Doing-Forecast hinzuzufügen bedeutet, dass für sie ein exogener Kostenpfad für 2060 erarbeitet werden soll. Der Optimierer entscheidet anschließend selbst, ob und wie viel dieser Technologie im kostenminimalen System eingesetzt wird. Für nicht ausgewählte Technologien können weiterhin Kostenannahmen aus Studien und Szenarien gelten.',
-    footExo:'Exogen:',footExoText:'Nachfrage, Wetter-/Ressourcenprofile, Kostenszenarien, Politiken',
-    footEndo:'Endogen:',footEndoText:'Ausbaukapazitäten, Dispatch, Energieströme und EE-Anteil',
-    footYear:'Ziel:',footYearText:'Kostenminimum ausschließlich für das Jahr 2060',
-    backToSelection:'↑ Learning-by-Doing-Auswahl bearbeiten',
-    selectedUnit:'ausgewählt'
-  },
-  en:{
-    eyebrow:'MASTER’S THESIS · MODEL ARCHITECTURE · TARGET YEAR 2060',
-    heading:'How do data, forecasting and optimisation fit together?',
-    intro:'Data collected on the left either enter the optimiser directly as fixed inputs and constraints or first pass through forecasting. The optimiser finds the least-cost energy system for 2060. Learning-by-doing technologies selected above automatically appear in the forecasting block.',
-    inputKicker:'01 · INPUT DATA',inputTitle:'Data foundation & exogenous assumptions',
-    inputDesc:'Historical data and external constraints collected for Germany and Japan.',
-    input1:'Historical electricity demand, load curves and sectoral demand drivers',
-    input2:'Hourly weather series and wind/solar resource data',
-    input3:'Technology parameters: CAPEX, OPEX, efficiency and lifetime',
-    input4:'Land, network, storage and resource potentials',
-    input5:'Policy targets, CO₂ limits and permitting constraints',
-    input6:'Resilience, failure and hazard scenarios',
-    inputNote:'Some data are used directly in the optimiser (e.g. technical constraints); others first become 2060 forecasts.',
-    arrowForecast:'For forecasting',arrowDirect:'Direct input',
-    forecastKicker:'02 · FORECASTING METHOD',forecastTitle:'Exogenous pathways for 2060',
-    forecastDesc:'Forecasts and scenarios establish parameters before the optimisation run.',
-    forecast1:'Electricity demand in 2060, including electrification and data centres',
-    forecast2:'Resource availability and representative weather-year profiles',
-    forecast3:'Technology costs in 2060: learning-by-doing for selected candidates',
-    forecast4:'Exogenous policy and resilience scenario parameters',
-    selectedTitle:'Selected for learning-by-doing forecast',selectedHint:'Tick or untick technologies in the table above. This selection updates immediately.',
-    loading:'Loading selection …',empty:'No technologies selected for learning-by-doing',
-    arrowDown:'Exogenous forecasts',arrowOutput:'Optimal system',
-    optimizerKicker:'03 · GREENFIELD OPTIMISER',optimizerTitle:'Target-year 2060 optimisation',
-    optimizerDesc:'The optimiser receives forecasts and other fixed inputs. It searches for the feasible technology mix with the lowest system cost in 2060.',
-    opt1:'Endogenous: installed wind, PV, storage, converter and network capacity',
-    opt2:'Endogenous: hourly dispatch, storage operation and energy flows',
-    opt3:'Constraints: demand coverage, CO₂ limits, technical rules and resilience',
-    opt4:'Objective: minimum annual system cost in 2060 (annualised investment and operating costs)',
-    optimizerNote:'A technology marked red may still be considered by the optimiser. Red only means no dedicated learning-by-doing forecast is planned.',
-    outputKicker:'04 · RESEARCH OUTPUT',outputTitle:'Least-cost energy system',
-    resultPrimary:'Optimal renewable penetration rate in 2060',
-    resultSubtitle:'Renewable electricity share of the least-cost feasible system under the selected assumptions',
-    output1:'Minimum annual system cost in the target year 2060',
-    output2:'Optimal generation, storage, conversion and capacity mix',
-    output3:'Emissions, resilience and sensitivity results',
-    output4:'Case-study comparison: Germany versus Japan',
-    outputNote:'This objective does not minimise cumulative costs from today through 2060. Only the target-year system is evaluated.',
-    principleLabel:'Methodological principle:',
-    principle:'Ticking a technology for a learning-by-doing forecast means planning an exogenous cost pathway for 2060. The optimiser then decides independently whether and how much of that technology to install in the least-cost system. Excluded technologies can still receive cost assumptions from studies or scenarios.',
-    footExo:'Exogenous:',footExoText:'Demand, resource profiles, cost scenarios and policies',
-    footEndo:'Endogenous:',footEndoText:'Capacities, dispatch, energy flows and renewable share',
-    footYear:'Objective:',footYearText:'Minimise costs for 2060 only',
-    backToSelection:'↑ Edit the learning-by-doing selection',
-    selectedUnit:'selected'
-  }
-};
+const HYPOTHESES={"Photovoltaik – Module":["Weitere Skalierung und höhere Moduleffizienz wahrscheinlich; Lernrate separat von Installations- und Systemkosten ansetzen.","Further manufacturing scale and module-efficiency gains are plausible; keep module learning separate from installed system costs."],"Photovoltaik – System / BOS":["Wechselrichter und Montage können effizienter werden, bleiben aber stark von regionalen Lohn- und Projektkosten abhängig.","Inverters and installation may improve, while regional labour and project costs remain important."],"Onshore-Windkraft":["Größere Anlagen und verlässlichere Komponenten sind plausibel; Standortqualität, Materialien und Akzeptanz begrenzen Kostensenkungen.","Larger turbines and more reliable components are plausible; site quality, materials and permits constrain cost declines."],"Offshore-Windkraft":["Standardisierung und größere Turbinen sind möglich; Fundamente, Netzanbindung, Schiffe und Finanzierung bleiben starke Kostentreiber.","Standardisation and larger turbines may help, but foundations, grid links, vessels and financing remain major cost drivers."],"Lithium-Ionen-Batterien":["Zellchemie, Fertigung und Langlebigkeit dürften sich weiterentwickeln; Kosten für Zellmodule und stationäre Gesamtsysteme getrennt führen.","Chemistry, manufacturing and lifetime may improve; separate cell cost from full stationary storage system cost."],"CO₂-Abscheidung an Kraftwerken":["Steigende Betriebserfahrung kann CAPEX und Energiebedarf senken; FOAK/NOAK, Abgaszusammensetzung und Anlagenintegration bleiben entscheidend.","Experience may reduce cost and energy penalties; first-of-a-kind status, exhaust composition and integration remain crucial."],"Alkalischer Elektrolyseur (AEL)":["Größere Produktionsserien könnten Stacks günstiger machen; Peripherie, Dynamik, Wirkungsgrad und Auslastung separat modellieren.","Scaling production may reduce stack costs; model balance of plant, flexibility, efficiency and utilisation separately."],"PEM-Elektrolyseur":["Höhere Fertigungsreife und bessere Stacks möglich; kritische Materialien, Lebensdauer und Systemintegration beachten.","Manufacturing maturity and improved stacks are possible; account for critical materials, lifetime and system integration."],"SOEC / AEM-Elektrolyseur":["Technologische Reife könnte steigen; wegen geringer Datenlage besser mehrere plausible Technologie- statt feste Lernraten-Szenarien.","Maturity could improve; limited evidence favours multiple technology scenarios over a single assumed learning rate."],"Natrium-Ionen-Batterien":["Neue Chemie könnte materialseitige Kostenvorteile erreichen; stationäre Reife und Energie-/Leistungsdichte bleiben offen.","New chemistry may offer material-cost advantages; stationary deployment maturity and energy density remain uncertain."],"Redox-Flow-Batterien":["Standardisierung von Stacks möglich, Energiekapazität bleibt stark vom Speichermedium abhängig; Leistung und Energie getrennt parametrisieren.","Stack standardisation is possible; electrolyte costs remain important, so power and energy capacity must be priced separately."],"Elektrische Wärmepumpen":["Geräteproduktion kann weiter standardisieren; COP hängt auch 2060 von Temperaturhub und Wärmesystem ab.","Manufacturing may standardise further; future COP still depends on temperature lift and heat-system design."],"Brennstoffzellen":["Lebensdauer und Serienfertigung könnten sich verbessern; stationäre Anwendungen technologie- und einsatzspezifisch unterscheiden.","Lifetime and production scale may improve; distinguish stationary applications by cell type and duty cycle."],"H₂-Verdichter & Drucktanks":["Fertigung und Standardisierung können Kosten beeinflussen; Druckniveau, Materialien, Sicherheit und Kompression bleiben maßgeblich.","Manufacturing and standardisation may help; pressure, materials, safety and compression energy remain central."],"Thermische Speicher":["Modulare Konzepte können günstiger werden; Temperaturbereich und Speichermedium bestimmen Kosten und Verluste.","Modular approaches may become cheaper; operating temperature and storage medium determine costs and losses."],"HGÜ-Leitungen / Konverter / Umrichter":["Leistungselektronik kann von Stückzahlen profitieren; Trassenbau und Genehmigungen bleiben projektspezifisch.","Power electronics may learn through scale; routes, civil works and permits remain project-specific."],"Flexible grüne Ammoniaksynthese (Haber-Bosch)":["Prozessintegration und Flexibilität könnten sich verbessern; etablierte Chemie nicht mit neuer grüner Systemintegration gleichsetzen.","Flexible operation and system integration may improve; distinguish mature chemistry from new green integration."],"Ammoniak-Cracking":["Wärmeintegration und H₂-Reinigung könnten effizienter werden; wegen geringer Großanlagen-Evidenz zunächst Szenarioansatz.","Heat integration and H₂ purification may improve; sparse large-scale evidence supports a scenario approach for now."],"Kleine modulare Reaktoren (SMR)":["Serienfertigung könnte Bauzeiten und Kosten senken, reale Größenordnung ist ungeklärt; FOAK/NOAK-Sensitivität nutzen.","Series production might reduce costs and lead times, but the magnitude is unproven; use FOAK/NOAK sensitivities."],"Pumpspeicherkraftwerke":["Technische Optimierungen möglich, aber Geologie, Reservoir und Baukosten dominieren; standortbezogene Kosten annehmen.","Technical improvements are possible, but geology, reservoirs and civil works dominate; use site-specific costs."],"Geologische H₂-Speicherung / Kavernen":["Erfahrung mit Dichtheit und Betrieb kann wachsen; geologische Eignung und Standortkosten bleiben zentral.","Experience with integrity and operations may grow; geology and location remain decisive."],"Konventionelle Wasserkraft":["Modernisierung und Effizienzgewinne möglich; begrenzte Standorte und hohe Bauanteile erfordern projektspezifische Kosten.","Refurbishment and efficiency gains are possible; limited sites and civil works demand project-specific costs."],"Große Kernkraftwerke":["Standardisierung könnte Bauabläufe verbessern; lange Bauzeiten und Regulierung können Kosten erhöhen.","Standard designs may improve construction, but long schedules and regulation can increase costs."],"Gas- / GuD-Kraftwerke":["Reife Gasturbinentechnik; Effizienzschritte möglich, Wirtschaftlichkeit 2060 aber besonders von Brennstoff-/CO₂-Kosten abhängig.","Mature turbine technology may see efficiency gains; future economics depend heavily on fuel and CO₂ prices."],"Biomasse-KWK / BECCS":["KWK-Komponenten sind etabliert; bei BECCS liegt Unsicherheit in Abscheidung, Infrastruktur und Biomasseversorgung.","CHP components are mature; BECCS uncertainty comes from capture, infrastructure and sustainable fuel supply."],"CO₂-Transport und geologische Speicherung":["Netzwerkeffekte können Infrastrukturkosten je Tonne senken; Geologie, Transportdistanz und Genehmigung bleiben standortabhängig.","Network scale can lower unit infrastructure cost, while geology, distance and permits remain site-specific."],"Ammoniak-Schiffsmotoren":["Reifung von Motoren und Abgasnachbehandlung möglich; NOₓ/N₂O-Vorgaben und frühe Flottenzahlen beachten.","Engines and aftertreatment may mature; NOₓ/N₂O constraints and small initial fleets matter."],"Geothermie / verbesserte Geothermie (EGS)":["Bohr- und Reservoirerfahrung könnte Kosten senken; Untergrundbedingungen und Erfolgsraten bleiben wesentlich.","Drilling and reservoir experience may reduce costs; subsurface conditions and success rates remain central."],"Solarthermische Kraftwerke (CSP)":["Komponenten und thermische Speicher können reifen; Ressourcenlage und Projektmaßstab bestimmen die Wirtschaftlichkeit.","Components and thermal storage may mature; solar resource and project scale remain decisive."]};
+const T={"de":{"eyebrow":"FORSCHUNGSDESIGN · MODELLLOGIK 2060","heading":"Zwei Eingangswege, ein kostenoptimaler Energiemix","intro":"Exogene Entwicklungen werden vorab prognostiziert oder als Szenario definiert. Die Technologiekandidaten gehen mit Kosten- und Leistungsannahmen direkt in den Greenfield-Optimierer – dieser entscheidet selbst, welche Kombination im Zieljahr 2060 optimal ist.","inputKicker":"INPUT A · EXOGENE DATEN","inputTitle":"Was wir prognostizieren","inputDesc":"Historische Daten und externe Einflussgrößen für Deutschland und Japan.","input1":"Stromnachfrage inkl. Rechenzentren und Elektrifizierung","input2":"Sektoraler Bedarf: Mobilität, H₂ und Wärme (soweit modelliert)","input3":"Wetter- und Klimadaten, Wind-/Solarprofile","input4":"Brennstoff-, CO₂- und ggf. Rohstoffpreisszenarien","input5":"Politische Szenarien, CO₂-Ziele und Technologiegrenzen","input6":"Katastrophen-, Ausfall- und Resilienzannahmen","inputNote":"Nicht jeder Punkt wird mit ML vorhergesagt: Politik, Risiken und manche Ressourcen werden als exogene Szenarien oder feste Restriktionen definiert.","arrowForecast":"Zeitreihen / Szenarien","arrowDirect":"Technologie- und Kostenparameter","forecastKicker":"MODELL A · FORECASTING","forecastTitle":"Exogene Prognosen und Szenarien bis 2060","forecastDesc":"ML, Zeitreihenmodelle oder Szenarioannahmen bestimmen die externe Systemumgebung. Hier wird nicht entschieden, welche Kraftwerke gebaut werden.","forecast1Head":"Nachfragepfade","forecast1":"Gesamtnachfrage, Sektoren, Rechenzentren","forecast2Head":"Wetter / Ressourcen","forecast2":"Stündliche Profile / repräsentative Wetterjahre","forecast3Head":"Externe Rahmenbedingungen","forecast3":"Brennstoffe, CO₂-Preise, Flächen, Politik","forecast4Head":"Risikoszenarien","forecast4":"Ausfälle, Naturgefahren, Resilienzanforderungen","forecastNote":"Output: Für jeden untersuchten Fall ein konsistenter exogener Datensatz für das Zieljahr 2060.","arrowDown":"Prognosen / Restriktionen 2060","techKicker":"INPUT B · TECHNOLOGIEKATALOG","techTitle":"Technologien direkt in den Optimierer","techDesc":"Alle aufgeführten Optionen sind mögliche Bausteine, sofern sie innerhalb der Modellgrenzen zulässig sind. Die LBD-Auswahl ändert die angenommene Kostenfunktion, nicht die Ausbauentscheidung.","techCountLabel":"Technologie- und Kostenkomponenten","techNote":"Aufklappen zeigt eine vorläufige Entwicklungshypothese, den möglichen Kostenansatz und einen Quellenanker. PV-Module und BOS sind beispielsweise Kostenkomponenten derselben Anlage, keine zwei unabhängigen Ausbautechnologien.","loading":"Technologieannahmen werden geladen …","optimizerKicker":"MODELL B · GREENFIELD-OPTIMIERER","optimizerTitle":"Endogene Systemoptimierung im Jahr 2060","optimizerDesc":"Hier werden Technologieoptionen mit vorab festgelegten Kosten- und Leistungsparametern gemeinsam optimiert. Nicht jede zulässige Technologie muss gebaut werden.","optFocusHead":"Der Optimierer entscheidet","opt1":"Installierte Kapazitäten und Technologiemix","opt2":"Speichergrößen, Netz- und Konverterausbau","opt3":"Stündlichen Dispatch und Energieflüsse","objectiveHead":"Zielfunktion","objectiveMath":"min Systemkosten(2060)","objectiveNote":"Annualisierte Investitionen plus fixe und variable Betriebskosten im Zieljahr, unter Nachfrage-, CO₂-, Technik- und Resilienzrestriktionen.","optimizerNote":"LBD ist keine vom Optimierer zu bestimmende Technologieauswahl: Kostenfunktionen werden vorher parametriert; die Ausbauentscheidung selbst ist endogen.","arrowOutput":"Optimum","outputKicker":"OUTPUT · ZIEL 2060","outputTitle":"Ergebnis des Optimierers","resultPrimary":"Optimale Renewable Penetration Rate","resultSubtitle":"Im kostenminimalen Energiesystem 2060","output1":"Minimale jährliche Systemkosten 2060","output2":"Optimaler Ausbau- und Technologiemix","output3":"Emissionen und Resilienzergebnisse","output4":"Deutschland–Japan-Vergleich","outputNote":"Keine kumulierte Kostenminimierung bis 2060. Die Kosten werden für das Zieljahr bewertet.","principleLabel":"Wichtige Trennung:","principle":"Die Forecasting-Methode prognostiziert externe Entwicklungen. Der Technologiekatalog enthält die Optionen und Kostenfunktionen für den Optimierer. Grün bedeutet „LBD-Kostenansatz“, Rot „Studien-/Szenariokosten“; die Farbe entscheidet nicht, ob die Technologie gebaut werden kann. Die Kostenparameter müssen vor einer echten Modellrechnung kalibriert werden.","footExo":"Exogen:","footExoText":"Nachfrage, Wetter, Kostenparameter, Politiken","footEndo":"Endogen:","footEndoText":"Kapazitäten, Mix, Dispatch, EE-Anteil","footYear":"Ziel:","footYearText":"Jährliches Kostenminimum für 2060","backToSelection":"↑ LBD-Kostenannahmen oben auswählen","methodLbd":"LBD","methodStd":"Studie","hypothesis":"Arbeitshypothese für 2060","cost":"Exogene Kostenfunktion / Ansatz","inputs":"Zu parametrisieren","drivers":"Zentrale Einflussfaktoren","rationale":"Forschungsbegründung","source":"Quellenanker öffnen","warning":"Vorläufige Forschungsannahme; Quelle nicht gleich empirisch kalibrierte Lernrate.","empty":"Keine Technologieeinträge verfügbar","costLbd":"Kosten aus weltweiter kumulierter Erfahrung (Q) mit technologieeigener Lernrate (LR) ableiten. Nur bei belastbarer Datenlage verwenden; der lokale Ausbau im Optimierer beeinflusst Q nicht.","costStd":"Technologiespezifische CAPEX-/OPEX-Annahmen aus externen Studien oder Low/Base/High-Szenarien für 2060 verwenden; Standort und Land separat berücksichtigen.","countUnit":"Einträge"},"en":{"eyebrow":"RESEARCH DESIGN · MODEL LOGIC 2060","heading":"Two input streams, one least-cost energy mix","intro":"Exogenous developments are forecast or defined as scenarios in advance. Technology candidates enter the greenfield optimiser directly with assumed cost and performance parameters. The optimiser selects the least-cost feasible combination in 2060.","inputKicker":"INPUT A · EXOGENOUS DATA","inputTitle":"What we forecast","inputDesc":"Historical data and external drivers collected for Germany and Japan.","input1":"Electricity demand, including data centres and electrification","input2":"Sector demand: mobility, H₂ and heat (if modelled)","input3":"Weather and climate data; wind and solar profiles","input4":"Fuel, CO₂ and potentially commodity price scenarios","input5":"Policy pathways, emissions limits and technology constraints","input6":"Disaster, outage and resilience scenarios","inputNote":"Not every parameter is ML-forecast: policies, risks and some potentials are exogenous scenarios or fixed constraints.","arrowForecast":"Time series / scenarios","arrowDirect":"Technology & cost parameters","forecastKicker":"MODEL A · FORECASTING","forecastTitle":"Exogenous projections and scenarios to 2060","forecastDesc":"ML, time-series models and scenarios determine the external system environment; this block does not decide which technologies to build.","forecast1Head":"Demand pathways","forecast1":"Aggregate demand, sectors and data centres","forecast2Head":"Weather / resources","forecast2":"Hourly profiles and representative weather years","forecast3Head":"External conditions","forecast3":"Fuels, carbon prices, land and policy","forecast4Head":"Risk scenarios","forecast4":"Outages, natural hazards and resilience needs","forecastNote":"Output: a consistent exogenous 2060 input dataset for each case study and scenario.","arrowDown":"2060 forecasts / constraints","techKicker":"INPUT B · TECHNOLOGY CATALOGUE","techTitle":"Technologies feed the optimiser directly","techDesc":"Listed options are possible model components when allowed by the system boundary. The LBD selection changes the assumed cost function, not the build decision.","techCountLabel":"technologies and cost components","techNote":"Expand a card for a provisional development hypothesis, cost rule and source. PV modules and balance-of-system are components of the same PV investment, not separate capacity choices.","loading":"Loading technology assumptions …","optimizerKicker":"MODEL B · GREENFIELD OPTIMISER","optimizerTitle":"Endogenous optimisation for 2060","optimizerDesc":"The optimiser jointly selects among technologies with pre-established costs and performance parameters; not every eligible option must be built.","optFocusHead":"The optimiser decides","opt1":"Installed capacities and technology mix","opt2":"Storage, transmission and conversion capacity","opt3":"Hourly dispatch and energy flows","objectiveHead":"Objective function","objectiveMath":"min SystemCost(2060)","objectiveNote":"Annualised investment plus fixed and variable operating costs in the target year, subject to demand, CO₂, technical and resilience constraints.","optimizerNote":"LBD is not a technology choice made by the optimiser. Cost functions are set beforehand, while build capacities are endogenous.","arrowOutput":"Optimal solution","outputKicker":"OUTPUT · TARGET YEAR 2060","outputTitle":"Optimisation result","resultPrimary":"Optimal renewable penetration rate","resultSubtitle":"In the least-cost 2060 energy system","output1":"Minimum annual system costs in 2060","output2":"Optimal technology and capacity mix","output3":"Emissions and resilience outcomes","output4":"Germany–Japan comparison","outputNote":"Cumulative costs from today to 2060 are not minimised. Only target-year costs are evaluated.","principleLabel":"Key separation:","principle":"The forecasting block projects external developments. The technology catalogue supplies the optimiser with candidate technologies and cost assumptions. Green means an LBD-based cost rule, red means a study/scenario cost rule; neither colour decides whether a technology may be built. Parameters still require calibration before optimisation.","footExo":"Exogenous:","footExoText":"Demand, weather, costs and policies","footEndo":"Endogenous:","footEndoText":"Capacities, mix, dispatch and renewable share","footYear":"Objective:","footYearText":"Minimum annual costs for 2060","backToSelection":"↑ Edit LBD cost assumptions above","methodLbd":"LBD","methodStd":"Study","hypothesis":"Working hypothesis for 2060","cost":"Exogenous cost function / method","inputs":"To parameterise","drivers":"Main drivers","rationale":"Research rationale","source":"Open source reference","warning":"Provisional research assumption; the source is not an empirically calibrated learning rate.","empty":"No technology entries available","costLbd":"Use global cumulative deployment/production (Q) and technology-specific learning rates (LR) to derive investment costs, only where evidence supports it. Local model build decisions do not affect Q.","costStd":"Use independent 2060 CAPEX/OPEX projections or Low/Base/High scenarios from literature, with regional and site-specific adjustments.","countUnit":"entries"}};
 const section=document.getElementById('model-logic');
 if(!section)return;
-function lang(){return window.AtlasI18n?.lang==='en'?'en':'de'}
+const techList=section.querySelector('#model-tech-list'),count=section.querySelector('#model-tech-count');
+function language(){return window.AtlasI18n?.lang==='en'?'en':'de'}
+function dict(){return T[language()]}
+function el(tag,cls,content){const n=document.createElement(tag);if(cls)n.className=cls;if(content!==undefined)n.textContent=content;return n}
 function translate(){
-  const copy=TRANSLATIONS[lang()];
-  section.querySelectorAll('[data-model-text]').forEach(el=>{
-    const k=el.getAttribute('data-model-text');
-    if(Object.prototype.hasOwnProperty.call(copy,k))el.textContent=copy[k];
-  });
-  const flow=section.querySelector('.model-flow');
-  if(flow)flow.setAttribute('aria-label',lang()==='en'?'Inputs feed the forecasting method or directly enter the optimiser; forecasts feed the optimiser, which produces the least-cost 2060 system.':'Inputdaten gehen in die Forecasting-Methode oder direkt in den Optimierer; Forecasts gehen in den Optimierer, aus dem das kostenminimale System 2060 hervorgeht.');
+ const d=dict();
+ section.querySelectorAll('[data-model-text]').forEach(n=>{const key=n.dataset.modelText;if(Object.prototype.hasOwnProperty.call(d,key))n.textContent=d[key]});
+ const chart=section.querySelector('.model-flow');
+ if(chart)chart.setAttribute('aria-label',language()==='en'?'Exogenous data feed forecasts; technology options feed the optimiser directly; forecasts also feed the optimiser; output is the least-cost 2060 energy system.':'Exogene Daten gehen in Prognosen; Technologien gehen direkt in den Optimierer; Prognosen ebenfalls; Ergebnis ist das kostenminimale Energiesystem 2060.');
 }
-function renderSelected(entries){
-  const list=section.querySelector('#model-selected-techs'),count=section.querySelector('#model-selected-count');
-  if(!list||!count)return;
-  const selected=(entries||[]).filter(x=>x.included);
-  const copy=TRANSLATIONS[lang()];
-  count.textContent=selected.length+' '+copy.selectedUnit;
-  list.replaceChildren();
-  if(!selected.length){
-    const empty=document.createElement('span');
-    empty.className='model-chip-empty';empty.textContent=copy.empty;list.appendChild(empty);return;
-  }
-  const dictionary=window.AtlasI18n?.learning||{};
-  for(const item of selected){
-    const chip=document.createElement('span');
-    chip.className='model-chip';
-    chip.textContent=lang()==='en'?(dictionary[item.name]?.[0]||item.displayName||item.name):item.name;
-    chip.title=(lang()==='en'?'Priority ':'Priorität ')+(item.priority||'');
-    list.appendChild(chip);
-  }
+function contentItem(dl,title,body,code){
+ const dt=el('dt',null,title),dd=el('dd');
+ if(code){const p=el('p',null,body);dd.appendChild(p);dd.appendChild(el('code','model-tech-formula',code))}
+ else dd.textContent=body||'—';
+ dl.append(dt,dd);
 }
-function refresh(){
-  translate();
-  renderSelected(window.AtlasForecastState);
+function buildDetails(item,expanded){
+ const d=dict(),isLbd=!!item.included;
+ const det=el('details','model-tech-entry '+(isLbd?'lbd':'standard'));
+ det.dataset.tech=item.name;
+ det.open=expanded;
+ const summary=el('summary');
+ const name=language()==='en'?(window.AtlasI18n?.learning?.[item.name]?.[0]||item.displayName||item.name):item.name;
+ summary.append(el('span','model-tech-name',name),el('span','model-tech-method',isLbd?d.methodLbd:d.methodStd));
+ det.appendChild(summary);
+ const contents=el('div','model-tech-detail'),dl=el('dl');
+ const hypothesis=HYPOTHESES[item.name]||[];
+ contentItem(dl,d.hypothesis,hypothesis[language()==='en'?1:0]||'—');
+ const formula=isLbd?'CAPEXᵢ,₂₀₆₀ = CAPEXᵢ,ref × (Qglobal,₂₀₆₀ / Qglobal,ref)^(−bᵢ);  bᵢ = −log₂(1−LRᵢ)':'CAPEXᵢ,₂₀₆₀ = CAPEXᵢ,study(2060, scenario, region)';
+ contentItem(dl,d.cost,isLbd?d.costLbd:d.costStd,formula);
+ contentItem(dl,d.inputs,language()==='en'?(item.displayGoal||item.goal):(item.goal||''));
+ contentItem(dl,d.drivers,language()==='en'?(item.displayDriver||item.driver):(item.driver||''));
+ contentItem(dl,d.rationale,language()==='en'?(item.displayRationale||item.rationale):(item.rationale||''));
+ contents.appendChild(dl);
+ if(item.sourceUrl?.startsWith('https://')){
+   const a=el('a','model-tech-source',d.source+': '+(item.sourceTitle||'Literatur'));
+   a.href=item.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';
+   contents.appendChild(a);
+ }
+ contents.append(el('div','model-tech-disclaimer',d.warning));
+ det.appendChild(contents);
+ return det;
 }
-window.addEventListener('atlas:forecast-selection',event=>{window.AtlasForecastState=event.detail?.entries||[];renderSelected(window.AtlasForecastState)});
+function render(entries){
+ if(!techList)return;
+ const prevOpen=new Set([...techList.querySelectorAll('details[open]')].map(x=>x.dataset.tech));
+ const top=techList.scrollTop;
+ techList.replaceChildren();
+ const data=Array.isArray(entries)?entries:[];
+ if(count)count.textContent=data.length+' '+dict().countUnit;
+ if(!data.length){techList.append(el('p','model-placeholder',dict().empty));return}
+ data.forEach(item=>techList.appendChild(buildDetails(item,prevOpen.has(item.name))));
+ techList.scrollTop=top;
+}
+function refresh(){translate();render(window.AtlasForecastState)}
+window.addEventListener('atlas:forecast-selection',ev=>{window.AtlasForecastState=ev.detail?.entries||[];render(window.AtlasForecastState)});
 window.addEventListener('atlas:language',refresh);
 refresh();
 })();
