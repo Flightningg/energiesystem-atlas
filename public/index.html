@@ -8,6 +8,7 @@
   <meta name="description" content="Interaktiver Energie- und Stoffflussatlas: Von Wind und Solar über Speicher, Wasserstoff, Haber-Bosch und CCS bis zum Endverbrauch.">
   <title>Energiesystem-Atlas · Interaktiver Energie- und Stofffluss</title>
   <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/model-logic.css">
 </head>
 <body>
 <header class="mast"><div class="shell"><div class="lang-switch" role="group" aria-label="Language / Sprache"><button type="button" data-lang-choice="de" aria-pressed="true">Deutsch</button><button type="button" data-lang-choice="en" aria-pressed="false">English</button></div><div class="eyebrow">Energy systems · Interactive model map</div><h1>Vom Energieerzeuger<br>bis zum Endverbrauch.</h1><p>Ein interaktiver Atlas der Energie- und Stoffflüsse: Wind, Sonne und Kraftwerke, elektrische und chemische Speicher, Wasserstoff, Ammoniak, Wärmepumpen und CO₂-Abscheidung – mit ihrer Rolle im Energiesystem.</p><div class="context"><span>Masterarbeit · Energie-Systemmodellierung</span><span>Deutschland & Japan</span><span>Greenfield-Optimierung</span><span>Technologieübersicht, kein finales Modell</span></div></div></header>
@@ -44,6 +45,111 @@
     </div>
     <p class="learning-citations"><strong>Literatur- und Datenanker:</strong> <a href="https://www.iea.org/reports/clean-energy-innovation/innovation-needs-in-the-sustainable-development-scenario" target="_blank" rel="noopener noreferrer">IEA · Experience Curves</a> · <a href="https://www.iea.org/reports/energy-technology-perspectives-2026" target="_blank" rel="noopener noreferrer">IEA · Energy Technology Perspectives 2026</a> · <a href="https://data.openei.org/submissions/8759" target="_blank" rel="noopener noreferrer">ATB 2025 · Technologiekosten-Szenarien</a> · <a href="https://www.iea.org/reports/global-hydrogen-review-2025" target="_blank" rel="noopener noreferrer">IEA · Global Hydrogen Review 2025</a> · <a href="https://www.sciencedirect.com/science/article/pii/S0360319925027661" target="_blank" rel="noopener noreferrer">Galletti et al. (2025) · Elektrolyse-Lernkurven</a>. Stand: November 2026; Einschätzungen sind Modellierungs-Empfehlungen, keine empirisch kalibrierten Lernraten.</p>
   </section>
+
+  <section class="model-logic" id="model-logic" aria-labelledby="model-logic-title">
+    <div class="model-logic-head">
+      <div class="eyebrow" data-model-text="eyebrow">MASTERARBEIT · MODELLARCHITEKTUR · ZIELJAHR 2060</div>
+      <h2 id="model-logic-title" data-model-text="heading">Wie greifen Daten, Forecasting und Optimierung ineinander?</h2>
+      <p data-model-text="intro">Die <strong>links gesammelten Daten</strong> fließen teilweise direkt als Randbedingungen in den Optimierer und teilweise vorher in ein Forecasting-Modell. Der Optimierer findet den kostenminimalen Energiemix für 2060. Die oben ausgewählten Learning-by-Doing-Technologien erscheinen automatisch im Forecasting-Block.</p>
+    </div>
+    <div class="model-logic-body">
+      <div class="model-flow" aria-label="Inputs fließen entweder direkt oder über Forecasting in die Greenfield-Optimierung. Ergebnis ist die optimale erneuerbare Penetrationsrate und minimale Systemkosten für 2060.">
+        <article class="model-panel model-panel-input">
+          <div class="model-kicker" data-model-text="inputKicker">01 · INPUTS / DATEN</div>
+          <h3 data-model-text="inputTitle">Datenbasis & exogene Annahmen</h3>
+          <p data-model-text="inputDesc">Historische Daten und Rahmenbedingungen, die wir für Deutschland und Japan sammeln.</p>
+          <ul>
+            <li data-model-text="input1">Historische Stromlast, Lastprofile und sektorale Nachfrageindikatoren</li>
+            <li data-model-text="input2">Stündliche Wetterdaten sowie Wind- und Solarressourcen</li>
+            <li data-model-text="input3">Technologieparameter: CAPEX, OPEX, Wirkungsgrad, Lebensdauer</li>
+            <li data-model-text="input4">Flächen-, Netz-, Speicher- und Rohstoffpotenziale</li>
+            <li data-model-text="input5">Politische Vorgaben, CO₂-Grenzen und Genehmigungsregeln</li>
+            <li data-model-text="input6">Resilienz-, Ausfall- und Risikoszenarien</li>
+          </ul>
+          <p class="model-footnote" data-model-text="inputNote">Ein Teil der Inputdaten geht direkt in den Optimierer (z. B. technische Restriktionen). Andere Größen werden zuerst für 2060 prognostiziert.</p>
+        </article>
+
+        <div class="model-arrow model-arrow-forecast" aria-hidden="true">
+          <span class="model-arrow-line"></span><small data-model-text="arrowForecast">Forecast-<wbr>daten</small>
+        </div>
+
+        <article class="model-panel model-panel-forecast">
+          <div class="model-kicker" data-model-text="forecastKicker">02 · FORECASTING-METHODE</div>
+          <h3 data-model-text="forecastTitle">Exogene Zukunftspfade für 2060</h3>
+          <p data-model-text="forecastDesc">Forecasting bzw. Szenarioannahmen liefern die Größen, die vor der Optimierung feststehen.</p>
+          <ul>
+            <li data-model-text="forecast1">Stromnachfrage 2060, z. B. Elektrifizierung und Rechenzentren</li>
+            <li data-model-text="forecast2">Wetter- und Verfügbarkeitsprofile für das Zieljahr / repräsentative Wetterjahre</li>
+            <li data-model-text="forecast3">Technologiekosten 2060: Learning-by-Doing für ausgewählte Kandidaten</li>
+            <li data-model-text="forecast4">Politische und resilienzbezogene Szenarioparameter</li>
+          </ul>
+          <div class="model-selected" aria-label="Auswahl der Learning-by-Doing-Technologien">
+            <div class="model-selected-title">
+              <span data-model-text="selectedTitle">Für Learning-by-Doing-Forecast ausgewählt</span>
+              <span class="model-selected-count" id="model-selected-count">–</span>
+            </div>
+            <div class="model-selected-list" id="model-selected-techs" aria-live="polite" aria-atomic="true">
+              <span class="model-chip-empty" data-model-text="loading">Lade Auswahl …</span>
+            </div>
+            <p class="model-selected-hint" data-model-text="selectedHint">Häkchen in der Tabelle oben setzen oder entfernen: Diese Liste ändert sich sofort.</p>
+          </div>
+        </article>
+
+        <div class="model-arrow-down" aria-hidden="true">
+          <small data-model-text="arrowDown">Exogene Forecasts</small>
+          <span class="model-vline"></span>
+        </div>
+
+        <div class="model-arrow model-arrow-direct" aria-hidden="true">
+          <span class="model-arrow-line"></span><small data-model-text="arrowDirect">Direkte Modell-<wbr>inputs</small>
+        </div>
+
+        <article class="model-panel model-panel-opt">
+          <div class="model-kicker" data-model-text="optimizerKicker">03 · GREENFIELD-OPTIMIERER</div>
+          <h3 data-model-text="optimizerTitle">Optimierung des Zieljahres 2060</h3>
+          <p data-model-text="optimizerDesc">Der Optimierer erhält Forecasts und weitere feste Inputs. Er prüft die zulässigen Kombinationen und minimiert die Kosten des Energiesystems im Jahr 2060.</p>
+          <ul>
+            <li data-model-text="opt1">Endogen: Kapazitäten für Wind, PV, Speicher, Konverter und ggf. Netzausbau</li>
+            <li data-model-text="opt2">Endogen: stündlicher Dispatch, Speicherbetrieb und Energieflüsse</li>
+            <li data-model-text="opt3">Restriktionen: Nachfrage, CO₂-Budget, technische Grenzen, Resilienz</li>
+            <li data-model-text="opt4">Zielfunktion: minimale jährliche Systemkosten 2060 (annualisierte Investitions- und Betriebskosten)</li>
+          </ul>
+          <p class="model-footnote" data-model-text="optimizerNote">Auch eine rot markierte Technologie kann im Optimierer berücksichtigt werden. Rot heißt nur: kein separater Learning-by-Doing-Forecast vorgesehen.</p>
+        </article>
+
+        <div class="model-arrow model-arrow-result" aria-hidden="true">
+          <span class="model-arrow-line"></span><small data-model-text="arrowOutput">Optimales<br>System</small>
+        </div>
+
+        <article class="model-panel model-panel-out">
+          <div class="model-kicker" data-model-text="outputKicker">04 · OUTPUT / FORSCHUNGSERGEBNIS</div>
+          <h3 data-model-text="outputTitle">Kostenoptimales Energiesystem</h3>
+          <div class="model-outcome">
+            <strong data-model-text="resultPrimary">Optimale Renewable Penetration Rate 2060</strong>
+            <span data-model-text="resultSubtitle">EE-Anteil des kostenminimalen Systems unter den gewählten Szenarioannahmen</span>
+          </div>
+          <ul>
+            <li data-model-text="output1">Minimale jährliche Gesamtsystemkosten im Zieljahr 2060</li>
+            <li data-model-text="output2">Optimaler Technologie-, Speicher- und Kapazitätsmix</li>
+            <li data-model-text="output3">Emissionen, Resilienz und Sensitivitäten</li>
+            <li data-model-text="output4">Vergleich der Fallstudien Deutschland und Japan</li>
+          </ul>
+          <p class="model-footnote" data-model-text="outputNote">Nicht minimiert werden die kumulierten Kosten von heute bis 2060. Bewertet wird das System im Zieljahr.</p>
+        </article>
+      </div>
+      <div class="model-explain">
+        <strong data-model-text="principleLabel">Methodisches Prinzip:</strong>
+        <span data-model-text="principle"> Eine Technologie per Checkbox zum Learning-by-Doing-Forecast hinzuzufügen, bedeutet, dass wir für sie einen exogenen 2060-Kostenpfad erarbeiten wollen. Der Optimierer entscheidet anschließend selbst, ob und wie viel dieser Technologie im kostenminimalen System eingesetzt wird. Für nicht ausgewählte Technologien können weiterhin Kostenannahmen aus Studien und Szenarien gelten.</span>
+      </div>
+      <div class="model-flow-note">
+        <span><b data-model-text="footExo">Exogen:</b> <span data-model-text="footExoText">Nachfrage, Wetter-/Ressourcenprofile, Kostenszenarien, Politiken</span></span>
+        <span><b data-model-text="footEndo">Endogen:</b> <span data-model-text="footEndoText">Ausbaukapazitäten, Dispatch, Energieströme und EE-Anteil</span></span>
+        <span><b data-model-text="footYear">Ziel:</b> <span data-model-text="footYearText">Kostenminimum ausschließlich für das Jahr 2060</span></span>
+      </div>
+      <a class="model-quicklink" href="#learning-section" data-model-text="backToSelection">↑ Learning-by-Doing-Auswahl bearbeiten</a>
+    </div>
+  </section>
+
   <script src="/i18n.js" defer></script>
   <script src="/part-1.js" defer></script>
 
@@ -52,5 +158,6 @@
   <p class="footer">Energiesystem-Atlas · Interaktiver Diskussionsentwurf · Version 1.2 · Keine realen Netz- oder Stoffflussmengen dargestellt.</p>
 </main>
 <script src="/part-2.js" defer></script>
+<script src="/model-logic.js" defer></script>
 </body>
 </html>
