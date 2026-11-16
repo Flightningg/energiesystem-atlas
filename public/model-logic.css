@@ -159,3 +159,21 @@
  .model-tech-scroll{max-height:360px}
 }
 @media(max-width:580px){.model-prediction-grid{grid-template-columns:1fr}.model-opt-list{grid-template-columns:1fr}.model-panel-forecast h3,.model-panel-opt h3{font-size:17px}}
+
+/* Expandable exogenous research inputs; existing model-flow grid stays unchanged. */
+.model-exogenous-catalog{display:grid;gap:7px;margin-top:12px}
+.model-panel .model-exo-legend{font-size:10px;color:#527088;margin:0 0 2px}
+.model-exo-category{border:1px solid #d4e1ed;border-radius:9px;background:#fff;overflow:hidden}
+.model-exo-heading{display:flex;align-items:center;justify-content:space-between;gap:5px;cursor:pointer;padding:9px 10px;font-size:11.5px;line-height:1.35;color:#24465e;list-style:none}
+.model-exo-heading::-webkit-details-marker{display:none}
+.model-exo-chevron{color:#7892a4;font-size:14px;transform:rotate(-90deg)}
+.model-exo-category[open] .model-exo-chevron{transform:rotate(0deg)}
+.model-exo-content{border-top:1px solid #e5edf3;padding:9px 9px 10px}
+.model-panel .model-exo-note{font-size:10px;margin:0 0 8px;line-height:1.45}
+.model-exo-flags{display:grid;gap:5px;margin:6px 0 1px}
+.model-exo-flag{display:flex;align-items:flex-start;gap:6px;font-size:10px;line-height:1.4;color:#2b536e;cursor:pointer}
+.model-exo-flag input{width:14px;height:14px;flex:none;margin:0;accent-color:#277b8e}
+.model-exo-children{margin-top:10px;display:grid;gap:7px}
+.model-exo-subcategory{border:1px solid #e1eaf1;background:#f8fbfd;border-radius:7px;padding:8px;display:grid;gap:3px}
+.model-exo-subcategory strong{font-size:11px;color:#233f53}
+.model-exo-subcategory small{font-size:10px;color:#617889;line-height:1.35}
