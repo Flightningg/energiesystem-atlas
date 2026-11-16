@@ -184,6 +184,45 @@
     </div>
   </section>
 
+  <section class="model-variables" id="model-variables" aria-labelledby="model-variables-title">
+    <header class="model-variables-head">
+      <div class="eyebrow" data-exo-de="MODELLABGRENZUNG · INPUTS UND ENTSCHEIDUNGEN" data-exo-en="MODEL BOUNDARY · INPUTS AND DECISIONS">MODELLABGRENZUNG · INPUTS UND ENTSCHEIDUNGEN</div>
+      <h2 id="model-variables-title" data-exo-de="Was ist exogen – was entscheidet der Optimierer?" data-exo-en="What is exogenous – what does the optimiser decide?">Was ist exogen – was entscheidet der Optimierer?</h2>
+      <p data-exo-de="Exogene Größen werden vorgegeben, aus Daten prognostiziert oder als Szenario festgelegt. Endogene Größen berechnet oder entscheidet der dynamische Greenfield-Optimierer selbst." data-exo-en="Exogenous quantities are predefined, forecast from data, or specified as scenarios. Endogenous quantities are chosen or calculated by the dynamic greenfield optimiser.">Exogene Größen werden vorgegeben, aus Daten prognostiziert oder als Szenario festgelegt. Endogene Größen berechnet oder entscheidet der dynamische Greenfield-Optimierer selbst.</p>
+    </header>
+    <div class="model-variables-body">
+      <table class="model-variables-table">
+        <thead><tr>
+          <th scope="col"><span class="model-variable-pill exogenous" data-exo-de="EXOGEN · Modellinput" data-exo-en="EXOGENOUS · Model input">EXOGEN · Modellinput</span></th>
+          <th scope="col"><span class="model-variable-pill endogenous" data-exo-de="ENDOGEN · Optimiererentscheidung" data-exo-en="ENDOGENOUS · Optimiser decision">ENDOGEN · Optimiererentscheidung</span></th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td data-exo-de="Regionale Stromnachfrage je Sektor und Zeitschritt (Haushalte, Industrie, Gewerbe, Mobilität, Rechenzentren, Wärme)" data-exo-en="Regional power demand by sector and time step (households, industry, services, mobility, data centres, heating)">Regionale Stromnachfrage je Sektor und Zeitschritt (Haushalte, Industrie, Gewerbe, Mobilität, Rechenzentren, Wärme)</td>
+            <td data-exo-de="Technologiewahl, Neuinvestitionen und Kapazitätszubau je Region und Periode" data-exo-en="Technology choice, new investment and capacity additions by region and period">Technologiewahl, Neuinvestitionen und Kapazitätszubau je Region und Periode</td>
+          </tr>
+          <tr>
+            <td data-exo-de="Historische Wind-/Solardaten, daraus abgeleitete Verfügbarkeitsprofile und geografische Ausbaupotenziale" data-exo-en="Historical wind/solar data, derived availability profiles and geographic build-out potential">Historische Wind-/Solardaten, daraus abgeleitete Verfügbarkeitsprofile und geografische Ausbaupotenziale</td>
+            <td data-exo-de="Stündliche Stromerzeugung, Speicherbetrieb, Dispatch und Energieflüsse" data-exo-en="Hourly generation, storage operation, dispatch and energy flows">Stündliche Stromerzeugung, Speicherbetrieb, Dispatch und Energieflüsse</td>
+          </tr>
+          <tr>
+            <td data-exo-de="Brennstoff- und CO₂-Preispfade, politische Vorgaben sowie Ausfall- und Resilienz-Szenarien" data-exo-en="Fuel and CO₂ price pathways, policy constraints and outage/resilience scenarios">Brennstoff- und CO₂-Preispfade, politische Vorgaben sowie Ausfall- und Resilienz-Szenarien</td>
+            <td data-exo-de="Angepasster Systemmix, Standortverteilung und optimaler Ausbaupfad bis 2060" data-exo-en="Resulting system mix, regional siting and optimal investment pathway through 2060">Angepasster Systemmix, Standortverteilung und optimaler Ausbaupfad bis 2060</td>
+          </tr>
+          <tr>
+            <td data-exo-de="Technische Wirkungsgrade, Lebensdauern, Referenzkosten, anfängliche kumulierte Erfahrung und technologieabhängige Lernraten" data-exo-en="Technical efficiencies, lifetimes, reference costs, initial cumulative experience and technology-specific learning rates">Technische Wirkungsgrade, Lebensdauern, Referenzkosten, anfängliche kumulierte Erfahrung und technologieabhängige Lernraten</td>
+            <td data-exo-de="Durch eigenen Zubau wachsende kumulierte Erfahrung und daraus endogen sinkende Kosten späterer Investitionen (Learning by Doing)" data-exo-en="Cumulative experience from modelled capacity additions and resulting endogenous reductions in future investment costs (learning by doing)">Durch eigenen Zubau wachsende kumulierte Erfahrung und daraus endogen sinkende Kosten späterer Investitionen (Learning by Doing)</td>
+          </tr>
+          <tr>
+            <td data-exo-de="Weitere Modellgrenzen und Zielfunktionsparameter (z. B. Diskontsatz, CO₂-Budget, erlaubte Technologien)" data-exo-en="Other model boundaries and objective parameters (e.g. discount rate, carbon budget and eligible technologies)">Weitere Modellgrenzen und Zielfunktionsparameter (z. B. Diskontsatz, CO₂-Budget, erlaubte Technologien)</td>
+            <td data-exo-de="Ergebnisgrößen: minimale Systemkosten, Emissionen und optimale Renewable Penetration Rate 2060" data-exo-en="Model outputs: minimum system costs, emissions and optimal renewable penetration rate in 2060">Ergebnisgrößen: minimale Systemkosten, Emissionen und optimale Renewable Penetration Rate 2060</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="model-variables-note" data-exo-de="Wichtig: Nicht jede exogene Größe braucht einen eigenen ML-Forecast – Studienpfade und Szenarien sind ebenfalls zulässig. Learning-by-Doing-Lernraten sind vorgegeben; der Lernfortschritt und seine Kostenwirkung entstehen endogen aus den Investitionsentscheidungen." data-exo-en="Important: Not every exogenous variable requires its own ML forecast – published pathways and scenarios may also be used. Learning rates are predefined; learning progress and its cost impact arise endogen from investment decisions.">Wichtig: Nicht jede exogene Größe braucht einen eigenen ML-Forecast – Studienpfade und Szenarien sind ebenfalls zulässig. Learning-by-Doing-Lernraten sind vorgegeben; der Lernfortschritt und seine Kostenwirkung entstehen endogen aus den Investitionsentscheidungen.</p>
+    </div>
+  </section>
+
   <script src="/i18n.js" defer></script>
   <script src="/part-1.js" defer></script>
 
