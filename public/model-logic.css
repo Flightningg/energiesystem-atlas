@@ -201,3 +201,22 @@
 .model-data-inventory-note{font-size:11px;color:#637b8c;line-height:1.6;margin:14px 0 0}
 @media(max-width:800px){.model-data-inventory .model-exogenous-catalog{grid-template-columns:1fr}.model-data-inventory .model-exo-children{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:540px){.model-data-inventory-body{padding:15px}.model-data-inventory-head{padding:19px 17px}.model-data-inventory .model-exo-children{grid-template-columns:1fr}}
+
+/* Exogenous vs endogenous classification table, below data inventory */
+.model-variables{margin:22px 0 24px;scroll-margin-top:22px;border:1px solid #d9e5ed;border-radius:15px;overflow:hidden;background:#fff}
+.model-variables-head{padding:20px 24px 16px;background:#f3f8fb;border-bottom:1px solid #d9e5ed}
+.model-variables-head .eyebrow{font-size:10px;color:#48768b;letter-spacing:1px;margin:0 0 7px}
+.model-variables-head h2{font-size:clamp(18px,2vw,23px);margin:0 0 7px;letter-spacing:-.4px;color:#163d53}
+.model-variables-head p{font-size:12px;line-height:1.6;color:#536d80;margin:0}
+.model-variables-body{padding:17px 22px 18px}
+.model-variables-table{width:100%;border-collapse:separate;border-spacing:0;table-layout:fixed;font-size:11.5px;line-height:1.6}
+.model-variables-table th{text-align:left;vertical-align:top;padding:0 13px 11px 11px}
+.model-variables-table td{vertical-align:top;padding:11px 14px;border-top:1px solid #e4edf2;color:#344c5e;overflow-wrap:break-word}
+.model-variables-table td:first-child{background:#f7fbff}
+.model-variables-table td:last-child{background:#f6fcf8}
+.model-variables-table th:first-child,.model-variables-table td:first-child{border-right:1px solid #e0eaf0}
+.model-variable-pill{display:inline-flex;align-items:center;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;padding:6px 10px;border-radius:7px}
+.model-variable-pill.exogenous{background:#e4effa;color:#2f658b}
+.model-variable-pill.endogenous{background:#def2e7;color:#276d46}
+.model-variables-note{border-top:1px solid #e4edf2;padding-top:12px;margin:13px 0 0;font-size:11px;line-height:1.65;color:#5c7482}
+@media(max-width:600px){.model-variables-head{padding:17px 16px}.model-variables-body{padding:11px}.model-variables-table{font-size:10.5px}.model-variables-table td{padding:9px 8px}.model-variables-table th{padding:0 6px 9px}.model-variable-pill{font-size:9px;padding:6px 7px}}
