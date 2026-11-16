@@ -28,7 +28,7 @@ const EXOGENOUS=[
 const EXOGENOUS_STORAGE='atlas-exogenous-research-v1';
 function exogenousState(){try{return JSON.parse(localStorage.getItem(EXOGENOUS_STORAGE)||'{}')||{}}catch{return {}}}
 function renderExogenous(){
- const host=section.querySelector('#model-exogenous-catalog');if(!host)return;
+ const host=document.getElementById('model-exogenous-catalog');if(!host)return;
  const en=language()==='en',state=exogenousState(),opened=new Set([...host.querySelectorAll('details[open]')].map(e=>e.dataset.category));
  host.replaceChildren();
  const intro=el('p','model-exo-legend',en?'Two independent research flags per data item:':'Zwei unabhängige Recherche-Häkchen je Datensatz:');
@@ -116,7 +116,10 @@ function render(entries){
  data.forEach(item=>techList.appendChild(buildDetails(item,prevOpen.has(item.name))));
  techList.scrollTop=top;
 }
-function refresh(){translate();renderExogenous();render(window.AtlasForecastState)}
+function translateInventory(){
+ document.querySelectorAll('#exogenous-data [data-exo-de]').forEach(node=>{node.textContent=node.getAttribute(language()==='en'?'data-exo-en':'data-exo-de')});
+}
+function refresh(){translate();translateInventory();renderExogenous();render(window.AtlasForecastState)}
 window.addEventListener('atlas:forecast-selection',ev=>{window.AtlasForecastState=ev.detail?.entries||[];render(window.AtlasForecastState)});
 window.addEventListener('atlas:language',refresh);
 refresh();
