@@ -177,3 +177,27 @@
 .model-exo-subcategory{border:1px solid #e1eaf1;background:#f8fbfd;border-radius:7px;padding:8px;display:grid;gap:3px}
 .model-exo-subcategory strong{font-size:11px;color:#233f53}
 .model-exo-subcategory small{font-size:10px;color:#617889;line-height:1.35}
+
+/* Exogenous input inventory, visually separated from the model diagram */
+.model-data-inventory{margin:26px 0 20px;scroll-margin-top:22px}
+.model-data-inventory-head{border-radius:16px 16px 0 0;padding:23px 26px 20px;background:linear-gradient(110deg,#163c53,#246278);color:#fff}
+.model-data-inventory-head .eyebrow{font-size:10px;color:#badbe7;letter-spacing:1.3px;margin-bottom:7px}
+.model-data-inventory-head h2{font-size:clamp(20px,2.2vw,27px);line-height:1.26;letter-spacing:-.55px;margin:0 0 9px}
+.model-data-inventory-head p{font-size:13px;line-height:1.65;color:#d9ebf2;margin:0;max-width:960px}
+.model-data-inventory-body{background:#fff;border:1px solid #dae5ed;border-top:0;border-radius:0 0 16px 16px;padding:20px 24px}
+.model-data-inventory .model-exogenous-catalog{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px 13px;align-items:start;margin:0}
+.model-data-inventory .model-exo-legend{grid-column:1/-1;font-size:12px;color:#577389;font-weight:650;margin:0 0 2px}
+.model-data-inventory .model-exo-category{min-width:0}
+.model-data-inventory .model-exo-category:first-of-type{grid-column:1/-1}
+.model-data-inventory .model-exo-heading{font-size:13px;padding:13px 14px}
+.model-data-inventory .model-exo-content{padding:12px 14px 14px}
+.model-data-inventory .model-exo-children{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.model-data-inventory .model-exo-subcategory{padding:11px 12px;gap:6px}
+.model-data-inventory .model-exo-subcategory strong{font-size:12px}
+.model-data-inventory .model-exo-subcategory small{font-size:11px}
+.model-data-inventory .model-exo-flag{font-size:11px;align-items:center}
+.model-data-inventory .model-exo-flags{gap:8px;margin:9px 0 2px}
+.model-data-inventory .model-exo-flag input{width:16px;height:16px}
+.model-data-inventory-note{font-size:11px;color:#637b8c;line-height:1.6;margin:14px 0 0}
+@media(max-width:800px){.model-data-inventory .model-exogenous-catalog{grid-template-columns:1fr}.model-data-inventory .model-exo-children{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){.model-data-inventory-body{padding:15px}.model-data-inventory-head{padding:19px 17px}.model-data-inventory .model-exo-children{grid-template-columns:1fr}}
