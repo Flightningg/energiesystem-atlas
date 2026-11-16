@@ -117,7 +117,7 @@ function render(entries){
  techList.scrollTop=top;
 }
 function translateInventory(){
- document.querySelectorAll('#exogenous-data [data-exo-de]').forEach(node=>{node.textContent=node.getAttribute(language()==='en'?'data-exo-en':'data-exo-de')});
+ document.querySelectorAll('#exogenous-data [data-exo-de], #model-variables [data-exo-de]').forEach(node=>{node.textContent=node.getAttribute(language()==='en'?'data-exo-en':'data-exo-de')});
 }
 function refresh(){translate();translateInventory();renderExogenous();render(window.AtlasForecastState)}
 window.addEventListener('atlas:forecast-selection',ev=>{window.AtlasForecastState=ev.detail?.entries||[];render(window.AtlasForecastState)});
