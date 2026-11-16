@@ -8,6 +8,64 @@ const techList=section.querySelector('#model-tech-list'),count=section.querySele
 function language(){return window.AtlasI18n?.lang==='en'?'en':'de'}
 function dict(){return T[language()]}
 function el(tag,cls,content){const n=document.createElement(tag);if(cls)n.className=cls;if(content!==undefined)n.textContent=content;return n}
+
+const EXOGENOUS=[
+ {id:'demand',de:'Electricity Demand',en:'Electricity Demand',noteDe:'Regionale stündliche Stromnachfrage je Modellperiode',noteEn:'Regional hourly power demand in each model period',children:[
+  ['households','Private Haushalte','Households','Haushaltsgeräte, Beleuchtung, bestehender Gebäudestrom','Appliances, lighting, existing household load'],
+  ['industry','Industrie / Produktion','Industry / manufacturing','Prozesse, Produktionsentwicklung, zusätzliche Elektrifizierung','Process loads, manufacturing and electrification'],
+  ['services','Gewerbe & Dienstleistungen','Commercial & services','Büros, Handel, öffentliche Einrichtungen','Offices, retail and public services'],
+  ['mobility','Elektromobilität','Electric mobility','Elektrofahrzeuge, Fahrleistung, regionale Ladeprofile','EV adoption, travel and regional charging profiles'],
+  ['datacenters','Rechenzentren','Data centres','IT-Last, PUE, Auslastung und regionale Verteilung','IT load, PUE, utilisation and regional distribution'],
+  ['heat','Wärmepumpen / elektrische Wärme','Heat pumps / electric heat','Gebäudeheizlast, Temperatur, Wärmepumpenbestand','Heating loads, temperature and heat-pump adoption']]},
+ {id:'wind',de:'Winddaten',en:'Wind resources',noteDe:'Historische Windgeschwindigkeiten, Offshore/Onshore, stündliche Einspeiseprofile und Potenziale',noteEn:'Historical wind speeds, offshore/onshore output profiles and potentials'},
+ {id:'solar',de:'Sonneneinstrahlung',en:'Solar resources',noteDe:'Historische Einstrahlung, Temperatur, regionale PV-Profile und Potenziale',noteEn:'Historical irradiance, temperature, regional PV profiles and potentials'},
+ {id:'land',de:'Geografische Potenziale',en:'Geographic potentials',noteDe:'Standort- und Flächenrestriktionen für Neubau trotz Greenfield',noteEn:'Siting and land constraints for new builds even in a greenfield model'},
+ {id:'technology',de:'Technische Parameter',en:'Technical parameters',noteDe:'Wirkungsgrade, Lebensdauer, Verfügbarkeit, OPEX, nichtlernende Kostenpfade',noteEn:'Efficiency, lifetime, availability, OPEX and non-learning cost paths'},
+ {id:'prices',de:'Brennstoff- und CO₂-Preise',en:'Fuel and CO₂ prices',noteDe:'Regionale Brennstoffkosten und CO₂-Preisszenarien',noteEn:'Regional fuel costs and carbon price scenarios'},
+ {id:'policy',de:'Politik & Regulierung',en:'Policy and regulation',noteDe:'Emissionsgrenzen, Flächenvorgaben und Technologie-Restriktionen',noteEn:'Emission caps, siting rules and technology constraints'},
+ {id:'resilience',de:'Resilienz / Extremereignisse',en:'Resilience / extreme events',noteDe:'Wetterextreme, Ausfall- und Sicherheitsannahmen',noteEn:'Extreme weather, outages and security assumptions'}
+];
+const EXOGENOUS_STORAGE='atlas-exogenous-research-v1';
+function exogenousState(){try{return JSON.parse(localStorage.getItem(EXOGENOUS_STORAGE)||'{}')||{}}catch{return {}}}
+function renderExogenous(){
+ const host=section.querySelector('#model-exogenous-catalog');if(!host)return;
+ const en=language()==='en',state=exogenousState(),opened=new Set([...host.querySelectorAll('details[open]')].map(e=>e.dataset.category));
+ host.replaceChildren();
+ const intro=el('p','model-exo-legend',en?'Two independent research flags per data item:':'Zwei unabhängige Recherche-Häkchen je Datensatz:');
+ host.append(intro);
+ function flags(id,name){
+   const bar=el('div','model-exo-flags');
+   [['source',en?'Paper / data found':'Paper / Daten vorhanden'],['forecast',en?'Own forecast required':'Eigener Forecast nötig']].forEach(([field,label])=>{
+     const lab=el('label','model-exo-flag'),cb=document.createElement('input');
+     cb.type='checkbox';cb.checked=!!state[id]?.[field];cb.setAttribute('aria-label',name+': '+label);
+     cb.addEventListener('change',()=>{
+       state[id]={...(state[id]||{}),[field]:cb.checked};
+       try{localStorage.setItem(EXOGENOUS_STORAGE,JSON.stringify(state))}catch{}
+     });
+     lab.append(cb,el('span',null,label));bar.append(lab);
+   });
+   return bar;
+ }
+ EXOGENOUS.forEach(item=>{
+   const details=el('details','model-exo-category');details.dataset.category=item.id;details.open=opened.has(item.id)||(!opened.size&&item.id==='demand');
+   const title=en?item.en:item.de,summary=el('summary','model-exo-heading');
+   summary.append(el('strong',null,title),el('span','model-exo-chevron','⌄'));details.append(summary);
+   const inner=el('div','model-exo-content');
+   if(item.noteDe)inner.append(el('p','model-exo-note',en?item.noteEn:item.noteDe));
+   inner.append(flags(item.id,title));
+   if(item.children){
+      const rows=el('div','model-exo-children');
+      item.children.forEach(c=>{
+        const name=en?c[2]:c[1],desc=en?c[4]:c[3],entry=el('div','model-exo-subcategory');
+        entry.append(el('strong',null,name),el('small',null,desc),flags(c[0],name));rows.append(entry);
+      });
+      inner.append(rows);
+      inner.append(el('p','model-exo-note',en?'Avoid double counting: forecast sector changes relative to a consistent baseline; controllable storage and electrolysis demand belong in the optimiser.':'Doppelzählungen vermeiden: Sektorentwicklungen gegenüber einer konsistenten Basislast modellieren. Steuerbare Speicher- und Elektrolyseverbräuche gehören in den Optimierer.'));
+   }
+   details.append(inner);host.append(details);
+ });
+}
+
 function translate(){
  const d=dict();
  section.querySelectorAll('[data-model-text]').forEach(n=>{const key=n.dataset.modelText;if(Object.prototype.hasOwnProperty.call(d,key))n.textContent=d[key]});
@@ -58,7 +116,7 @@ function render(entries){
  data.forEach(item=>techList.appendChild(buildDetails(item,prevOpen.has(item.name))));
  techList.scrollTop=top;
 }
-function refresh(){translate();render(window.AtlasForecastState)}
+function refresh(){translate();renderExogenous();render(window.AtlasForecastState)}
 window.addEventListener('atlas:forecast-selection',ev=>{window.AtlasForecastState=ev.detail?.entries||[];render(window.AtlasForecastState)});
 window.addEventListener('atlas:language',refresh);
 refresh();
