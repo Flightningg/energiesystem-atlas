@@ -117,7 +117,12 @@ function render(entries){
  techList.scrollTop=top;
 }
 function translateInventory(){
- document.querySelectorAll('#exogenous-data [data-exo-de], #model-variables [data-exo-de]').forEach(node=>{node.textContent=node.getAttribute(language()==='en'?'data-exo-en':'data-exo-de')});
+ document.querySelectorAll('#exogenous-data [data-exo-de], #model-variables [data-exo-de], #meeting-questions [data-exo-de]').forEach(node=>{node.textContent=node.getAttribute(language()==='en'?'data-exo-en':'data-exo-de')});
+}
+const meetingNotes=document.getElementById('model-meeting-notes');
+if(meetingNotes){
+ try{meetingNotes.value=localStorage.getItem('atlas-meeting-notes-v1')||''}catch{}
+ meetingNotes.addEventListener('input',()=>{try{localStorage.setItem('atlas-meeting-notes-v1',meetingNotes.value)}catch{}});
 }
 function refresh(){translate();translateInventory();renderExogenous();render(window.AtlasForecastState)}
 window.addEventListener('atlas:forecast-selection',ev=>{window.AtlasForecastState=ev.detail?.entries||[];render(window.AtlasForecastState)});
