@@ -134,7 +134,7 @@ const zoomLabel=document.getElementById('zoomnumber');
 const BASE_W=1338,BASE_H=1530;
 let currentZoom=100;
 
-function applyZoom(percent,keepCentre=true){
+function applyZoom(percent,keepCentre=true,syncSlider=true){
  const next=Math.max(+zoomSlider.min,Math.min(+zoomSlider.max,Number(percent)||100));
  const scale=next/100;
  let anchorX=BASE_W/2,anchorY=BASE_H/2;
@@ -146,7 +146,9 @@ function applyZoom(percent,keepCentre=true){
  svg.setAttribute('width',String(Math.round(BASE_W*scale)));
  svg.setAttribute('height',String(Math.round(BASE_H*scale)));
  currentZoom=next;
- zoomSlider.value=String(next);
+ // Do not write to the native range control during its own input/drag event.
+ // On some browsers this interrupts the thumb gesture after the first move.
+ if(syncSlider)zoomSlider.value=String(next);
  zoomLabel.textContent=next+' %';
  if(keepCentre){
   const svgRect=svg.getBoundingClientRect(),paneRect=scroller.getBoundingClientRect();
@@ -161,7 +163,8 @@ function fitZoom(){
  scroller.scrollLeft=Math.max(0,(scroller.scrollWidth-scroller.clientWidth)/2);
  scroller.scrollTop=Math.max(0,(scroller.scrollHeight-scroller.clientHeight)/2);
 }
-zoomSlider.addEventListener('input',ev=>applyZoom(ev.target.value));
+zoomSlider.addEventListener('input',ev=>applyZoom(ev.target.value,true,false));
+zoomSlider.addEventListener('change',ev=>applyZoom(ev.target.value,true,false));
 document.getElementById('zoom-out').addEventListener('click',()=>applyZoom(currentZoom-20));
 document.getElementById('zoom-in').addEventListener('click',()=>applyZoom(currentZoom+20));
 document.getElementById('zoom-fit').addEventListener('click',fitZoom);
