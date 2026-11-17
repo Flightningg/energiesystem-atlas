@@ -238,3 +238,21 @@
 .model-variables-table td:last-child .model-var-child::before,.model-variables-table td:last-child .model-var-child::after{border-color:#b8d9c6}
 .model-variables-note{font-size:11px}
 @media(max-width:600px){.model-variables-table td{padding:0 7px 7px!important}.model-var-parent{font-size:11px}.model-var-child{font-size:10px;padding-left:13px}.model-var-child::before,.model-var-child::after{left:3px}.model-var-child::after{width:5px}}
+
+/* Meeting question panel */
+.model-meeting-questions{margin:20px 0 28px;border:1px solid #d8e4ed;border-radius:15px;overflow:hidden;background:#fff;scroll-margin-top:22px}
+.model-meeting-head{padding:19px 23px 14px;background:#f3f8fb;border-bottom:1px solid #d8e4ed}
+.model-meeting-head .eyebrow{font-size:10px;letter-spacing:1px;color:#49748a;margin:0 0 7px}
+.model-meeting-head h2{font-size:clamp(19px,2vw,24px);letter-spacing:-.4px;color:#173d53;margin:0 0 6px}
+.model-meeting-head p{margin:0;font-size:12px;color:#607889}
+.model-meeting-body{padding:17px 22px;display:grid;gap:13px}
+.model-meeting-question{display:flex;align-items:flex-start;gap:13px;padding:13px 15px;border:1px solid #dce7ef;background:#f9fcfe;border-radius:10px}
+.model-meeting-number{display:inline-flex;flex:none;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:#deedf4;color:#336b83;font-weight:800;font-size:12px}
+.model-meeting-question h3{font-size:13px;margin:0 0 5px;line-height:1.4;color:#254b60}
+.model-meeting-question p{font-size:12px;margin:0;line-height:1.6;color:#536d7d}
+.model-meeting-extra{display:grid;gap:7px;padding-top:4px}
+.model-meeting-extra label{font-size:12px;font-weight:750;color:#254b60}
+.model-meeting-extra textarea{width:100%;min-height:86px;box-sizing:border-box;resize:vertical;padding:11px 12px;background:white;border:1px solid #c8dbe8;border-radius:9px;font:inherit;font-size:12px;line-height:1.6;color:#213e52}
+.model-meeting-extra textarea:focus{outline:2px solid #80bbcf;outline-offset:1px}
+.model-meeting-extra small{font-size:10px;color:#6d8190;line-height:1.5}
+@media(max-width:600px){.model-meeting-head{padding:17px 16px}.model-meeting-body{padding:13px}.model-meeting-question{padding:11px;gap:9px}}
