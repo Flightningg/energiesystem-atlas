@@ -117,7 +117,7 @@ function render(entries){
  techList.scrollTop=top;
 }
 function translateInventory(){
- document.querySelectorAll('#exogenous-data [data-exo-de], #model-variables [data-exo-de], #meeting-questions [data-exo-de]').forEach(node=>{node.textContent=node.getAttribute(language()==='en'?'data-exo-en':'data-exo-de')});
+ document.querySelectorAll('.mast [data-exo-de], #holistic-map [data-exo-de], #learning-section [data-exo-de], #model-logic .step-marker[data-exo-de], #exogenous-data [data-exo-de], #model-variables [data-exo-de], #meeting-questions [data-exo-de]').forEach(node=>{node.textContent=node.getAttribute(language()==='en'?'data-exo-en':'data-exo-de')});
 }
 const meetingNotes=document.getElementById('model-meeting-notes');
 if(meetingNotes){
