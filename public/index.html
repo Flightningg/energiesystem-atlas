@@ -5,22 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
   <meta name="theme-color" content="#102235">
-  <meta name="description" content="Interaktiver Energie- und Stoffflussatlas: Von Wind und Solar über Speicher, Wasserstoff, Haber-Bosch und CCS bis zum Endverbrauch.">
-  <title>Energiesystem-Atlas · Interaktiver Energie- und Stofffluss</title>
+  <meta name="description" content="Meeting Dashboard · Master Thesis Florian Leiting · RWTH Aachen & Texas A&M · Greenfield energy system optimisation, research questions and model design to 2060.">
+  <title>Meeting Dashboard · Master Thesis Florian Leiting</title>
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/model-logic.css">
 </head>
 <body>
-<header class="mast"><div class="shell"><div class="lang-switch" role="group" aria-label="Language / Sprache"><button type="button" data-lang-choice="de" aria-pressed="true">Deutsch</button><button type="button" data-lang-choice="en" aria-pressed="false">English</button></div><div class="eyebrow">Energy systems · Interactive model map</div><h1>Vom Energieerzeuger<br>bis zum Endverbrauch.</h1><p>Ein interaktiver Atlas der Energie- und Stoffflüsse: Wind, Sonne und Kraftwerke, elektrische und chemische Speicher, Wasserstoff, Ammoniak, Wärmepumpen und CO₂-Abscheidung – mit ihrer Rolle im Energiesystem.</p><div class="context"><span>Masterarbeit · Energie-Systemmodellierung</span><span>Deutschland & Japan</span><span>Greenfield-Optimierung</span><span>Technologieübersicht, kein finales Modell</span></div></div></header>
+<header class="mast" id="dashboard-top">
+  <div class="shell dashboard-hero">
+    <div class="dashboard-topline">
+      <div class="dashboard-institutions" aria-label="Universitäten">
+        <div class="institution-mark rwth-mark" aria-label="RWTH Aachen University"><span class="rwth-lettermark">RWTH<span class="rwth-accent">.</span></span><span class="institution-caption">AACHEN UNIVERSITY</span></div>
+        <span class="institution-separator" aria-hidden="true">×</span>
+        <div class="institution-mark tamu-mark" aria-label="Texas A&amp;M University"><span class="tamu-lettermark">TEXAS <b>A&amp;M</b></span><span class="institution-caption">UNIVERSITY</span></div>
+      </div>
+      <div class="lang-switch" role="group" aria-label="Language / Sprache"><button type="button" data-lang-choice="de" aria-pressed="true">Deutsch</button><button type="button" data-lang-choice="en" aria-pressed="false">English</button></div>
+    </div>
+    <div class="eyebrow" data-exo-de="MASTERARBEIT · GEMEINSAMER MODELLREVIEW" data-exo-en="MASTER'S THESIS · MODEL DESIGN REVIEW">MASTERARBEIT · GEMEINSAMER MODELLREVIEW</div>
+    <h1>Meeting Dashboard <span class="dashboard-title-sub">Master Thesis · Florian Leiting</span></h1>
+    <p data-exo-de="Diskussionsentwurf zur Modellarchitektur, Datenakquise und den offenen Entscheidungen für einen dynamischen Greenfield-Energiesystemoptimierer bis 2060." data-exo-en="Discussion draft on model architecture, data collection and open decisions for a dynamic greenfield energy-system optimiser through 2060.">Diskussionsentwurf zur Modellarchitektur, Datenakquise und den offenen Entscheidungen für einen dynamischen Greenfield-Energiesystemoptimierer bis 2060.</p>
+    <div class="context"><span>RWTH Aachen · Texas A&amp;M</span><span data-exo-de="Deutschland &amp; Japan" data-exo-en="Germany &amp; Japan">Deutschland &amp; Japan</span><span>Greenfield Optimisation</span><span data-exo-de="Stand: Diskussionsentwurf" data-exo-en="Status: Discussion draft">Stand: Diskussionsentwurf</span></div>
+    <nav class="dashboard-steps" id="dashboard-steps" aria-label="Research walkthrough">
+      <a href="#holistic-map"><span>01</span><span data-exo-de="Systemkarte" data-exo-en="System map">Systemkarte</span></a>
+      <a href="#learning-section"><span>02</span><span>Learning by Doing</span></a>
+      <a href="#model-logic"><span>03</span><span data-exo-de="Modelllogik" data-exo-en="Model logic">Modelllogik</span></a>
+      <a href="#exogenous-data"><span>04</span><span data-exo-de="Dateninventar" data-exo-en="Data inventory">Dateninventar</span></a>
+      <a href="#model-variables"><span>05</span><span data-exo-de="Entscheidungen" data-exo-en="Decisions">Entscheidungen</span></a>
+      <a href="#meeting-questions"><span>06</span><span data-exo-de="Meeting-Fragen" data-exo-en="Meeting questions">Meeting-Fragen</span></a>
+    </nav>
+  </div>
+</header>
 <main class="shell">
-  <div class="sectionbar"><div><h2>Interaktives Wirkungsgefüge</h2><p>Wähle einen Pfad oder klicke eine Anlage an. Alle Verbindungen sind navigierbar.</p></div><div class="actionset"><button class="plain-btn" id="reset" type="button">↺ Gesamtansicht</button><button class="plain-btn strong" id="share" type="button">↗ Link zur Ansicht kopieren</button></div></div>
+  <div class="sectionbar dashboard-map-header" id="holistic-map"><div>
+    <div class="step-marker" data-exo-de="STEP 01 · HOLISTISCHER SYSTEMÜBERBLICK" data-exo-en="STEP 01 · HOLISTIC SYSTEM OVERVIEW">STEP 01 · HOLISTISCHER SYSTEMÜBERBLICK</div>
+    <h2 data-exo-de="Holistic Energy System Map" data-exo-en="Holistic Energy System Map">Holistic Energy System Map</h2>
+    <p data-exo-de="Gesamter technologischer Lösungsraum: Erzeugung, Energieträger, Speicher, Umwandlung und Nachfrage. Klicke auf eine Technologie, um ihre Rolle zu untersuchen." data-exo-en="The full technology landscape: generation, energy carriers, storage, conversion and demand. Select any technology to inspect its role.">Gesamter technologischer Lösungsraum: Erzeugung, Energieträger, Speicher, Umwandlung und Nachfrage. Klicke auf eine Technologie, um ihre Rolle zu untersuchen.</p></div><div class="actionset"><button class="plain-btn" id="reset" type="button">↺ Gesamtansicht</button><button class="plain-btn strong" id="share" type="button">↗ Link zur Ansicht kopieren</button></div></div>
   <div class="toolbar"><div class="line1"><label for="search">Energiepfad auswählen</label><input class="text-field" type="search" id="search" autocomplete="off" placeholder="Technologie suchen, z. B. Elektrolyseur" aria-label="Technologie suchen"></div><div class="pillbox" id="presets"></div><div class="small-screen-note">Tipp: Diagramm horizontal und vertikal verschieben, um alle Technologien zu sehen.</div></div>
   <div class="workbench"><div class="graph-wrap"><div class="graph-head"><span class="graph-tip">↗ Kasten auswählen · Pfeile verfolgen · Pfade oben filtern</span><span id="live-status" class="status" aria-live="polite"></span></div><div class="graph-scroll" id="scroller"><svg id="graph" width="1338" height="1530" viewBox="0 0 1338 1530" role="img" aria-label="Interaktives Netzdiagramm mit Quellen, Umwandlungstechnologien, Energieträgern, Speichern und Verbrauchergruppen"></svg></div></div><aside class="inspector" id="inspector" aria-live="polite"></aside></div>
   <div class="graph-foot"><div class="legend"><span><i class="legend-c9aa8b5"></i>Primärenergie / Rohstoffe</span><span><i class="legend-c2865ce"></i>Strom</span><span><i class="legend-cd87829"></i>Wärme / Antrieb</span><span><i class="legend-c088a80"></i>Wasserstoff</span><span><i class="legend-c8751bb"></i>Ammoniak</span><span><i class="legend-c687889"></i>CO₂</span></div><label class="zoom">Zoom <input type="range" id="zoom" min="65" max="130" step="5" value="100"><span id="zoomnumber" class="zoom-num">100 %</span></label></div>
 
   <section id="learning-section" class="learning-section" aria-labelledby="learning-title">
     <div class="learning-hero">
-      <div><div class="learning-eyebrow">Technologieannahmen für den Optimierer · Forschungsinventar</div><h2 id="learning-title">Welche Technologien profitieren von Learning-by-Doing?</h2>
+      <div><div class="step-marker" data-exo-de="STEP 02 · TECHNOLOGIE-SCREENING" data-exo-en="STEP 02 · TECHNOLOGY SCREENING">STEP 02 · TECHNOLOGIE-SCREENING</div><div class="learning-eyebrow" data-exo-de="Learning-by-Doing-Kandidaten · Kostenannahmen" data-exo-en="Learning-by-doing candidates · cost assumptions">Learning-by-Doing-Kandidaten · Kostenannahmen</div><h2 id="learning-title">Welche Technologien profitieren von Learning-by-Doing?</h2>
       <p>Interaktive Übersicht von Technologien und Kostenkomponenten, die als <strong>mögliche Optionen direkt in den Optimierer</strong> gehen. Das Häkchen entscheidet nur, ob wir für die <strong>exogene Kostenannahme 2060</strong> einen Learning-by-Doing-Ansatz prüfen. Der Optimierer entscheidet selbst über den optimalen Technologiemix.</p></div>
       <div class="learning-icon" aria-hidden="true">📉</div>
     </div>
@@ -49,6 +75,7 @@
 
   <section class="model-logic" id="model-logic" aria-labelledby="model-logic-title">
     <header class="model-logic-head">
+      <div class="step-marker" data-exo-de="STEP 03 · MODELLARCHITEKTUR" data-exo-en="STEP 03 · MODEL ARCHITECTURE">STEP 03 · MODELLARCHITEKTUR</div>
       <div class="eyebrow" data-model-text="eyebrow">FORSCHUNGSDESIGN · MODELLLOGIK 2060</div>
       <h2 id="model-logic-title" data-model-text="heading">Zwei Eingangswege, ein kostenoptimaler Energiemix</h2>
       <p data-model-text="intro">Exogene Prognosen und Technologieannahmen speisen den dynamischen Greenfield-Optimierer über getrennte Eingänge. Er bestimmt den kostenoptimalen Ausbaupfad bis 2060.</p>
@@ -174,6 +201,7 @@
 
   <section class="model-data-inventory" id="exogenous-data" aria-labelledby="exogenous-data-title">
     <header class="model-data-inventory-head">
+      <div class="step-marker" data-exo-de="STEP 04 · DATENAKQUISE" data-exo-en="STEP 04 · DATA COLLECTION">STEP 04 · DATENAKQUISE</div>
       <div class="eyebrow">DATENAKQUISE · EXOGENE MODELLINPUTS</div>
       <h2 id="exogenous-data-title"><span data-exo-de="Exogene Daten – Recherche- und Forecast-Übersicht" data-exo-en="Exogenous data – research and forecasting inventory">Exogene Daten – Recherche- und Forecast-Übersicht</span></h2>
       <p data-exo-de="Eigenständige Datenliste unterhalb der Modellvisualisierung. Öffne eine Kategorie und markiere unabhängig, ob bereits Paper oder Datenquellen existieren und ob du einen eigenen Forecast erstellen möchtest." data-exo-en="Separate data inventory below the model visualisation. Expand each category and independently flag existing papers or datasets and whether a custom forecast is needed.">Eigenständige Datenliste unterhalb der Modellvisualisierung. Öffne eine Kategorie und markiere unabhängig, ob bereits Paper oder Datenquellen existieren und ob du einen eigenen Forecast erstellen möchtest.</p>
@@ -186,6 +214,7 @@
 
   <section class="model-variables" id="model-variables" aria-labelledby="model-variables-title">
     <header class="model-variables-head">
+      <div class="step-marker" data-exo-de="STEP 05 · MODELLABGRENZUNG" data-exo-en="STEP 05 · MODEL BOUNDARY">STEP 05 · MODELLABGRENZUNG</div>
       <div class="eyebrow" data-exo-de="MODELLABGRENZUNG · MEETING-ÜBERSICHT" data-exo-en="MODEL BOUNDARY · MEETING OVERVIEW">MODELLABGRENZUNG · MEETING-ÜBERSICHT</div>
       <h2 id="model-variables-title" data-exo-de="Daten & Entscheidungen" data-exo-en="Inputs & decisions">Daten & Entscheidungen</h2>
     </header>
@@ -206,6 +235,7 @@
 
   <section class="model-meeting-questions" id="meeting-questions" aria-labelledby="meeting-questions-title">
     <header class="model-meeting-head">
+      <div class="step-marker" data-exo-de="STEP 06 · OFFENE ENTSCHEIDUNGEN" data-exo-en="STEP 06 · OPEN DECISIONS">STEP 06 · OFFENE ENTSCHEIDUNGEN</div>
       <div class="eyebrow" data-exo-de="MEETING · ENTSCHEIDUNGSBEDARF" data-exo-en="MEETING · OPEN DECISIONS">MEETING · ENTSCHEIDUNGSBEDARF</div>
       <h2 id="meeting-questions-title" data-exo-de="Offene Fragen" data-exo-en="Open questions">Offene Fragen</h2>
       <p data-exo-de="Vor dem Modellaufbau gemeinsam festlegen." data-exo-en="Resolve together before implementing the model.">Vor dem Modellaufbau gemeinsam festlegen.</p>
