@@ -30,7 +30,8 @@ const nodes=[
  n('battery',3,130,'🔋','Batteriespeicher','Strom ↔ Strom','Batterie speichert elektrische Energie elektrochemisch und gibt sie nach zeitlicher Verschiebung mit Verlusten zurück.','Kosten in €/MW und €/MWh, Wirkungsgrade, Alterung.','Batteriegröße, Lade-/Entladeleistung, Füllstand.'),
  n('pumped',3,216,'🏞️','Pumpspeicher','Strom ↔ Lageenergie','Strom pumpt Wasser in einen höher gelegenen Speicher; eine Turbine wandelt Höhenenergie später zurück in Strom.','Standorte, Reservoirvolumen, Wirkungsgrade, Kosten.','Pump-, Turbinen- und Speicherkapazität.'),
  n('ely',3,338,'⚙️','Elektrolyseur','Strom + H₂O → H₂','Elektrolyseur stellt Wasserstoff aus Wasser und Strom her; die stoffliche Umwandlung erzeugt Verluste.','Wirkungsgrad, Investitionskosten und Wasserverfügbarkeit.','Leistung, Fahrweise, H₂-Produktion.'),
- n('h2store',3,585,'🧯','H₂-Speicher','H₂ ↔ H₂','Speicherung in Druckbehältern oder geeigneten geologischen Kavernen. Verdichtung benötigt zusätzliche Energie.','Speicheroptionen, Kosten, Verluste und Standortpotenzial.','Kapazität, Ein-/Ausspeicherung, Füllstand.'),
+ n('saltcavern',3,481,'🧂','Salzkaverne (H₂)','Geologischer H₂-Speicher','Optionale geologische Wasserstoffspeicherung in geeigneten Salzkavernen; geologische Eignung und Standortverfügbarkeit begrenzen das Ausbaupotenzial. Noch nicht Bestandteil der bestätigten Baseline.','Salzstrukturen, zulässige Standorte, Kosten, Verdichtung, Verluste und geologische Speicherpotenziale.','Bei Zulassung Kavernenkapazität sowie Ein-/Ausspeicherung und Füllstand.'),
+ n('h2store',3,585,'🧯','H₂-Druckspeicher','H₂ ↔ H₂','Wasserstoffspeicherung in Druckbehältern. Verdichtung benötigt zusätzliche Energie. Geologische Salzkavernen sind eine separate optionale Speichertechnologie.','Kosten, Verluste, Druckniveau und Standortbedingungen.','Kapazität, Ein-/Ausspeicherung, Füllstand.'),
  n('fuelcell',3,695,'🔌','Brennstoffzelle','H₂ → Strom','Brennstoffzelle erzeugt aus Wasserstoff mit Sauerstoff Strom und Wärme; die Rückverstromung verursacht Verluste.','Wirkungsgrad, Kosten, Lebensdauer.','Leistung und Wasserstoffverbrauch.'),
  n('heatpump',3,824,'🌡️','Wärmepumpe','Strom + Umweltwärme → Wärme','Die Wärmepumpe verbindet elektrischen Strom mit Umweltwärme. Bei COP 3 ergeben 1 kWh Strom + 2 kWh Umweltwärme etwa 3 kWh Nutzwärme.','COP, Außentemperatur, Wärmelast, Kosten.','Wärmepumpenleistung, Betrieb und Stromaufnahme.'),
  n('heatstore',3,922,'♨️','Wärmespeicher','Wärme ↔ Wärme','Wärme wird in Wasser, Salz, Feststoffen oder Phasenwechselmedien gespeichert und später als Wärme entnommen.','Wärmeverluste, Temperaturbereich, Kosten.','Speicherkapazität, Ein-/Ausspeisung.'),
@@ -56,7 +57,7 @@ const edgeList=[];function e(a,b,type){edgeList.push({a,b,type,id:a+'>'+b})}
 ['windp','pv','hydrop','nuclear','gasp','biop'].forEach(id=>e(id,'grid','el'));
 ['home','data','ev','industry'].forEach(id=>e('grid',id,'el'));
 ['battery','pumped'].forEach(id=>{e('grid',id,'el');e(id,'grid','el')});
-e('grid','ely','el');e('water','ely','raw');e('ely','h2','h2');e('h2','h2store','h2');e('h2store','h2','h2');e('h2','fuelcell','h2');e('fuelcell','grid','el');e('h2','h2industry','h2');
+e('grid','ely','el');e('water','ely','raw');e('ely','h2','h2');e('h2','saltcavern','h2');e('saltcavern','h2','h2');e('h2','h2store','h2');e('h2store','h2','h2');e('h2','fuelcell','h2');e('fuelcell','grid','el');e('h2','h2industry','h2');
 e('grid','heatpump','el');e('ambient','heatpump','heat');e('heatpump','thermal','heat');e('heatpump','househeat','heat');e('thermal','househeat','heat');e('thermal','indheat','heat');e('thermal','heatstore','heat');e('heatstore','thermal','heat');e('biop','thermal','heat');e('gasp','thermal','heat');
 e('h2','haber','h2');e('nitrogen','haber','raw');e('haber','ammonia','nh3');e('ammonia','nhstore','nh3');e('nhstore','ammonia','nh3');e('ammonia','fertilizer','nh3');e('ammonia','cracker','nh3');e('cracker','h2','h2');e('ammonia','nhmotor','nh3');e('nhmotor','ship','heat');
 e('gasp','co2','co2');e('biop','co2','co2');e('co2','ccs','co2');e('ccs','geostore','co2');e('grid','ccs','el');
@@ -65,7 +66,7 @@ const paths=[
  {id:'power',title:'Direkter Strom',ids:['wind>windp','windp>grid','grid>home','grid>data','grid>industry'],color:'el'},
  {id:'heat',title:'Wärmepumpe → Haushalt',ids:['sun>pv','pv>grid','grid>heatpump','ambient>heatpump','heatpump>househeat','heatpump>thermal','thermal>househeat'],color:'heat'},
  {id:'battery',title:'Batteriespeicher',ids:['sun>pv','pv>grid','grid>battery','battery>grid','grid>home'],color:'el'},
- {id:'hydrogen',title:'Wasserstoff → Strom',ids:['wind>windp','windp>grid','grid>ely','water>ely','ely>h2','h2>h2store','h2store>h2','h2>fuelcell','fuelcell>grid','grid>home'],color:'h2'},
+ {id:'hydrogen',title:'Wasserstoff → Strom',ids:['wind>windp','windp>grid','grid>ely','water>ely','ely>h2','h2>saltcavern','saltcavern>h2','h2>h2store','h2store>h2','h2>fuelcell','fuelcell>grid','grid>home'],color:'h2'},
  {id:'ammonia',title:'Ammoniak → Strom',ids:['grid>ely','water>ely','ely>h2','h2>haber','nitrogen>haber','haber>ammonia','ammonia>nhstore','nhstore>ammonia','ammonia>cracker','cracker>h2','h2>fuelcell','fuelcell>grid','grid>home'],color:'nh3'},
  {id:'fertilizer',title:'NH₃ → Dünger',ids:['grid>ely','ely>h2','h2>haber','nitrogen>haber','haber>ammonia','ammonia>fertilizer'],color:'nh3'},
  {id:'ccs',title:'CO₂ / CCS',ids:['gas>gasp','gasp>co2','co2>ccs','grid>ccs','ccs>geostore'],color:'co2'}
