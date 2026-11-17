@@ -256,3 +256,34 @@
 .model-meeting-extra textarea:focus{outline:2px solid #80bbcf;outline-offset:1px}
 .model-meeting-extra small{font-size:10px;color:#6d8190;line-height:1.5}
 @media(max-width:600px){.model-meeting-head{padding:17px 16px}.model-meeting-body{padding:13px}.model-meeting-question{padding:11px;gap:9px}}
+
+/* Thesis meeting dashboard and walkthrough */
+.mast .dashboard-hero{padding-top:24px;padding-bottom:27px}
+.dashboard-topline{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;margin-bottom:29px}
+.dashboard-institutions{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.institution-mark{display:flex;flex-direction:column;gap:2px;min-width:0;line-height:1}
+.institution-mark .institution-caption{font-size:9px;font-weight:800;letter-spacing:1.4px;color:#e3e9f1}
+.rwth-lettermark{font-size:26px;font-weight:900;color:#f6fcff;letter-spacing:-1.2px}
+.rwth-accent{color:#e35368}
+.tamu-lettermark{font-size:20px;font-weight:750;color:#f5edf0;letter-spacing:-.4px}
+.tamu-lettermark b{font-weight:900;color:#ffc6d1;font-size:25px}
+.institution-separator{font-weight:300;font-size:24px;color:#91a9b9}
+.dashboard-topline .lang-switch{position:static;margin:0;transform:none}
+.mast .dashboard-hero h1{font-size:clamp(29px,3.9vw,49px);margin-bottom:12px;max-width:1100px}
+.dashboard-title-sub{display:block;font-size:clamp(21px,2.6vw,33px);font-weight:600;letter-spacing:-.55px;margin-top:6px;color:#d7eaf2}
+.mast .dashboard-hero > p{max-width:920px}
+.dashboard-steps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:27px}
+.dashboard-steps a{display:flex;align-items:center;gap:9px;padding:12px 11px;background:#ffffff10;border:1px solid #daeefa2c;border-radius:10px;color:#e9f2f7;text-decoration:none;font-size:11px;font-weight:700;line-height:1.35;min-width:0;transition:background .15s,border-color .15s}
+.dashboard-steps a:hover,.dashboard-steps a:focus-visible{background:#ffffff23;border-color:#d5effa7a}
+.dashboard-steps a > span:first-child{display:grid;place-items:center;flex:none;background:#e8f2f7;color:#164158;border-radius:7px;font-size:10px;font-weight:900;width:26px;height:26px}
+.step-marker{display:inline-flex;align-items:center;width:max-content;max-width:100%;padding:5px 9px;border-radius:6px;background:#e8eff7;color:#275775;font-weight:850;font-size:10px;letter-spacing:.8px;text-transform:uppercase;line-height:1.4;margin-bottom:10px}
+.dashboard-map-header{scroll-margin-top:22px;margin-top:27px}
+.dashboard-map-header h2{font-size:clamp(22px,2.2vw,27px);letter-spacing:-.6px}
+.dashboard-map-header p{max-width:870px;font-size:12.5px;line-height:1.65}
+.learning-hero .step-marker{background:#dbe9f7;color:#285877}
+.model-logic-head .step-marker,.model-data-inventory-head .step-marker{background:#d8ebf5;color:#194c65}
+.model-logic-head .step-marker,.model-data-inventory-head .step-marker{margin-bottom:9px}
+.model-variables-head .step-marker,.model-meeting-head .step-marker{background:#deedf5;color:#23546d}
+#learning-section,#model-logic,#exogenous-data,#model-variables,#meeting-questions{scroll-margin-top:25px}
+@media(max-width:1050px){.dashboard-steps{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:620px){.mast .dashboard-hero{padding-top:19px;padding-bottom:22px}.dashboard-topline{gap:12px;margin-bottom:23px}.dashboard-institutions{gap:10px}.rwth-lettermark{font-size:21px}.tamu-lettermark{font-size:16px}.tamu-lettermark b{font-size:21px}.institution-mark .institution-caption{font-size:7px}.institution-separator{font-size:18px}.dashboard-steps{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:19px}.dashboard-steps a{font-size:10px;padding:9px}.dashboard-map-header{margin-top:22px}}
