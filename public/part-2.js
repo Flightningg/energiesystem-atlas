@@ -131,28 +131,39 @@ document.getElementById('reset').addEventListener('click',()=>{current='all';sel
 document.getElementById('share').addEventListener('click',async()=>{const link=location.href;try{await navigator.clipboard.writeText(link);stat.textContent=T('Link kopiert ✓','Link copied ✓');setTimeout(()=>stat.textContent='',3500)}catch{const inp=document.createElement('input');inp.value=link;document.body.appendChild(inp);inp.select();document.execCommand('copy');inp.remove();stat.textContent='Link kopiert ✓';setTimeout(()=>stat.textContent='',3500)}});
 const zoomSlider=document.getElementById('zoom');
 const zoomLabel=document.getElementById('zoomnumber');
-const BASE_W=1338, BASE_H=1530;
+const BASE_W=1338,BASE_H=1530;
 let currentZoom=100;
 
-// Keep the point under the viewport centre fixed while zooming; simply resizing
-// the SVG without repositioning scroll makes the whole diagram appear to jump.
 function applyZoom(percent,keepCentre=true){
  const next=Math.max(+zoomSlider.min,Math.min(+zoomSlider.max,Number(percent)||100));
- const oldScale=currentZoom/100,newScale=next/100;
- const centreX=(scroller.scrollLeft+scroller.clientWidth/2)/oldScale;
- const centreY=(scroller.scrollTop+scroller.clientHeight/2)/oldScale;
- svg.setAttribute('width',String(Math.round(BASE_W*newScale)));
- svg.setAttribute('height',String(Math.round(BASE_H*newScale)));
+ const scale=next/100;
+ let anchorX=BASE_W/2,anchorY=BASE_H/2;
+ if(keepCentre){
+  const beforeSvg=svg.getBoundingClientRect(),beforeScroller=scroller.getBoundingClientRect();
+  anchorX=(beforeScroller.left+scroller.clientWidth/2-beforeSvg.left)/(currentZoom/100);
+  anchorY=(beforeScroller.top+scroller.clientHeight/2-beforeSvg.top)/(currentZoom/100);
+ }
+ svg.setAttribute('width',String(Math.round(BASE_W*scale)));
+ svg.setAttribute('height',String(Math.round(BASE_H*scale)));
+ currentZoom=next;
  zoomSlider.value=String(next);
  zoomLabel.textContent=next+' %';
- currentZoom=next;
  if(keepCentre){
-  const newLeft=centreX*newScale-scroller.clientWidth/2;
-  const newTop=centreY*newScale-scroller.clientHeight/2;
-  scroller.scrollLeft=Math.max(0,Math.min(newLeft,scroller.scrollWidth-scroller.clientWidth));
-  scroller.scrollTop=Math.max(0,Math.min(newTop,scroller.scrollHeight-scroller.clientHeight));
+  const svgRect=svg.getBoundingClientRect(),paneRect=scroller.getBoundingClientRect();
+  scroller.scrollLeft+=svgRect.left+anchorX*scale-(paneRect.left+scroller.clientWidth/2);
+  scroller.scrollTop+=svgRect.top+anchorY*scale-(paneRect.top+scroller.clientHeight/2);
  }
 }
+function fitZoom(){
+ const ideal=100*Math.min((scroller.clientWidth-24)/BASE_W,(scroller.clientHeight-24)/BASE_H);
+ const value=Math.max(+zoomSlider.min,Math.min(+zoomSlider.max,Math.floor(ideal/5)*5));
+ applyZoom(value,false);
+ scroller.scrollLeft=Math.max(0,(scroller.scrollWidth-scroller.clientWidth)/2);
+ scroller.scrollTop=Math.max(0,(scroller.scrollHeight-scroller.clientHeight)/2);
+}
 zoomSlider.addEventListener('input',ev=>applyZoom(ev.target.value));
+document.getElementById('zoom-out').addEventListener('click',()=>applyZoom(currentZoom-20));
+document.getElementById('zoom-in').addEventListener('click',()=>applyZoom(currentZoom+20));
+document.getElementById('zoom-fit').addEventListener('click',fitZoom);
 scroller.scrollLeft=180;scroller.scrollTop=185;
 })();
