@@ -110,3 +110,6 @@
 .zoom-fit{padding:5px 11px}
 .zoom-btn:hover,.zoom-fit:hover{background:#ecf4fd;border-color:#8faecb}
 .zoom-btn:focus-visible,.zoom-fit:focus-visible{outline:3px solid #70a8f4;outline-offset:2px}
+
+.zoom-controls .zoom-display{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:#496479;padding:4px 7px}
+.zoom-controls .zoom-display .zoom-num{font-variant-numeric:tabular-nums;min-width:47px;text-align:left}
