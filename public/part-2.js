@@ -127,8 +127,32 @@ window.addEventListener('atlas:language',applyLanguage);
 const q=new URLSearchParams(location.search).get('path');if(paths.some(x=>x.id===q)){current=q;selected={power:'grid',heat:'heatpump',battery:'battery',hydrogen:'h2store',ammonia:'cracker',fertilizer:'haber',ccs:'ccs'}[q]||'grid'}
 update(false);
 document.getElementById('search').addEventListener('input',ev=>{searchTerm=ev.target.value.trim().toLowerCase();if(searchTerm){const first=nodes.find(n=>n.name.toLowerCase().includes(searchTerm));if(first){selected=first.id;update(true)}else{stat.textContent=T('Keine Technologie gefunden','No matching technology')}}else{stat.textContent='';update(false)}});
-document.getElementById('reset').addEventListener('click',()=>{current='all';selected='grid';searchTerm='';document.getElementById('search').value='';document.getElementById('zoom').value='100';document.getElementById('zoomnumber').textContent='100 %';svg.setAttribute('width','1338');svg.setAttribute('height','1530');update(false);scroller.scrollTo({left:210,top:180,behavior:'smooth'});setUrl()});
+document.getElementById('reset').addEventListener('click',()=>{current='all';selected='grid';searchTerm='';document.getElementById('search').value='';applyZoom(100,false);update(false);scroller.scrollTo({left:210,top:180,behavior:'smooth'});setUrl()});
 document.getElementById('share').addEventListener('click',async()=>{const link=location.href;try{await navigator.clipboard.writeText(link);stat.textContent=T('Link kopiert ✓','Link copied ✓');setTimeout(()=>stat.textContent='',3500)}catch{const inp=document.createElement('input');inp.value=link;document.body.appendChild(inp);inp.select();document.execCommand('copy');inp.remove();stat.textContent='Link kopiert ✓';setTimeout(()=>stat.textContent='',3500)}});
-document.getElementById('zoom').addEventListener('input',ev=>{const z=+ev.target.value/100;svg.setAttribute('width',Math.round(1338*z));svg.setAttribute('height',Math.round(1530*z));document.getElementById('zoomnumber').textContent=ev.target.value+' %'});
+const zoomSlider=document.getElementById('zoom');
+const zoomLabel=document.getElementById('zoomnumber');
+const BASE_W=1338, BASE_H=1530;
+let currentZoom=100;
+
+// Keep the point under the viewport centre fixed while zooming; simply resizing
+// the SVG without repositioning scroll makes the whole diagram appear to jump.
+function applyZoom(percent,keepCentre=true){
+ const next=Math.max(+zoomSlider.min,Math.min(+zoomSlider.max,Number(percent)||100));
+ const oldScale=currentZoom/100,newScale=next/100;
+ const centreX=(scroller.scrollLeft+scroller.clientWidth/2)/oldScale;
+ const centreY=(scroller.scrollTop+scroller.clientHeight/2)/oldScale;
+ svg.setAttribute('width',String(Math.round(BASE_W*newScale)));
+ svg.setAttribute('height',String(Math.round(BASE_H*newScale)));
+ zoomSlider.value=String(next);
+ zoomLabel.textContent=next+' %';
+ currentZoom=next;
+ if(keepCentre){
+  const newLeft=centreX*newScale-scroller.clientWidth/2;
+  const newTop=centreY*newScale-scroller.clientHeight/2;
+  scroller.scrollLeft=Math.max(0,Math.min(newLeft,scroller.scrollWidth-scroller.clientWidth));
+  scroller.scrollTop=Math.max(0,Math.min(newTop,scroller.scrollHeight-scroller.clientHeight));
+ }
+}
+zoomSlider.addEventListener('input',ev=>applyZoom(ev.target.value));
 scroller.scrollLeft=180;scroller.scrollTop=185;
 })();
